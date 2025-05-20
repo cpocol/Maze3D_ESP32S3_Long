@@ -148,6 +148,9 @@ int Cast(int angle, int& xHit, int& yHit) {
 }
 
 void RenderColumn(int col, int h, int textureColumn, int wallID) {
+// the initial version was modified in order to produce an image that's rotated with 90 degrees
+// this way, there is no need to rotate it when flushing on the screen of T-Display S3 Long
+
     int32_t Dh_fp = (texRes << 22) / h; // 1 row in screen space is this many rows in texture space; use fixed point
     int32_t textureRow_fp = 0;
     //int minRow = screenHh - h / 2; // no elevation
@@ -159,7 +162,7 @@ void RenderColumn(int col, int h, int textureColumn, int wallID) {
         minRow = 0;
     }
 
-    uint16_t* screenAddr = screen + minRow * screenW + col;
+    uint16_t* screenAddr = screen + col * screenH + minRow;
     const uint16_t* pTexture = Texture1;
     if (wallID % 2) // different texture for N/S walls
         pTexture = Texture2;
@@ -172,7 +175,7 @@ void RenderColumn(int col, int h, int textureColumn, int wallID) {
         *screenAddr = *(textureAddr + (textureRow_fp >> 22)); // rotated texture - access it row wise (cache memory principles)
         //*screenAddr = BLUE; // rotated texture - access it row wise (cache memory principles)
         textureRow_fp += Dh_fp;
-        screenAddr += screenW;
+        screenAddr++;
     }
 }
 
@@ -208,8 +211,8 @@ void Render() {
     auto t_render = millis();
 
     // also mirror image; we need this because the map's CS is left handed while the ray casting works right handed
-    lcd_PushColors_mirrored_rotated_90(0, 0, screenW, screenH, screen, true);
-    //lcd_PushColors(screen, 2 * screenW * screenH);
+    //lcd_PushColors_mirrored_rotated_90(0, 0, screenW, screenH, screen, true);
+    lcd_PushColors(screen, 2 * screenW * screenH);
 
     auto t_show = millis();
     Serial.printf("render: %2d ms,       show: %2d ms,       FPS: %.1f\n", t_render - t_start, t_show   - t_render, 1000.f / (t_show - t_prev));
