@@ -14,10 +14,11 @@
 
 #include "Config.h"
 #include "Map.h"
-#include "Texture_Wolf128x128rot.h"
-#include "Texture_WolfGRAY128x128rot.h"
+#include "Wolf128x128rotSwappedBytes.h"
+#include "WolfGRAY128x128rotSwappedBytes.h"
 
 uint16_t* screen = new uint16_t[screenW * screenH];
+uint16_t* background = new uint16_t[screenH];
 
 const int16_t mapSizeHeight = mapHeight * sqRes, mapSizeWidth = mapWidth * sqRes;
 const fptype mapSizeWidth_fp = (((fptype)mapSizeWidth) << fp), mapSizeHeight_fp = (((fptype)mapSizeHeight) << fp);
@@ -33,6 +34,10 @@ int elevation_perc = 0; //as percentage from wall half height
 
 float X2Rad(int X) {
     return (float)X * 3.1415f / aroundh;
+}
+
+unsigned short swapBytes(unsigned short value) {
+    return (value % 256) * 256 + (value / 256);
 }
 
 void setup()
@@ -69,6 +74,12 @@ void setup()
             CTan_fp[a] = maxTan;
         if (temp < -maxTan)
             CTan_fp[a] = -maxTan;
+    }
+
+    //prepare background (floor and ceiling)
+    for (i = 0; i < screenHh; i++) {
+        background[i] = swapBytes(0x10A2); //ceiling
+        background[screenHh + i] = swapBytes(0x5ACB); //floor
     }
 }
 
@@ -163,9 +174,9 @@ void RenderColumn(int col, int h, int textureColumn, int wallID) {
     }
 
     uint16_t* screenAddr = screen + col * screenH + minRow;
-    const uint16_t* pTexture = Texture1;
+    const uint16_t* pTexture = Wolf128x128rotSwappedBytes;
     if (wallID % 2) // different texture for N/S walls
-        pTexture = Texture2;
+        pTexture = WolfGRAY128x128rotSwappedBytes;
 
     //const uint16_t* textureAddr = pTexture + textureColumn;
     const uint16_t* textureAddr = pTexture + textureColumn * texRes; // huge speedup: 90 degs pre-rotated texture
@@ -183,16 +194,11 @@ auto t_prev = millis();
 void Render() {
     auto t_start = millis();
 
-    memset(screen, 0x55, sizeof(uint16_t) * screenW * screenH / 2); // ceiling
-    memset(screen + sizeof(uint16_t) * screenW * screenH / 2, 0xAA, sizeof(uint16_t) * screenW * screenH / 2); //floor
-    for (int row = 0; row < screenHh; row++)
-        for (int col = 0; col < screenW; col++)
-            *(screen + row * screenW + col) = 0x10A2;
-    for (int row = screenHh; row < screenH; row++)
-        for (int col = 0; col < screenW; col++)
-            *(screen + row * screenW + col) = 0x5ACB;
+    for (int i = 0; i < screenW; i++)
+        memcpy(screen + i * screenH, background, 2 * screenH);
 
     int32_t viewerToScreen_sq = sq(screenWh) * 3; // FOV = 60 degs => viewerToScreen = screenWh * sqrt(3)
+    //int32_t viewerToScreen_sq = sq(screenWh); // FOV = 90 degs => viewerToScreen = screenWh
     uint32_t textureColumn;
     for (int16_t col = 0; col < screenW; col++) {
         int16_t ang = (screenWh - col + angleC + around) % around;
@@ -203,15 +209,13 @@ void Render() {
 
         int dist_sq = sq(xC - xHit) + sq(yC - yHit) + 1; // +1 avoids division by zero
         int h = int(sqRes * sqrt((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq) + 0.5);
-	      h = h / 3; // need to lower it for wide screens
+	      h = h / 2; // need to lower it for wide screens
 
         RenderColumn(col, h, textureColumn, wallID);
     }
 
     auto t_render = millis();
 
-    // also mirror image; we need this because the map's CS is left handed while the ray casting works right handed
-    //lcd_PushColors_mirrored_rotated_90(0, 0, screenW, screenH, screen, true);
     lcd_PushColors(screen, 2 * screenW * screenH);
 
     auto t_show = millis();
@@ -224,6 +228,4 @@ void loop()
     Render();
 
     angleC = (angleC + 5) % around;
-
-    //delay(5);
 }

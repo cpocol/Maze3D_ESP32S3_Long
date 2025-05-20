@@ -1,1 +1,6 @@
-ImageGeneration
+ImageGeneration\bin
+ImageGeneration\obj
+*.o
+*.exe
+*.depend
+*.layout
