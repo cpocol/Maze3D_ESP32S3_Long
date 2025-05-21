@@ -171,10 +171,8 @@ void axs15231_init(void)
     // Initialize the screen multiple times to prevent initialization failure
     int i = 1;
     while (i--) {
-
         const lcd_cmd_t *lcd_init = axs15231b_qspi_init;
         for (int i = 0; i < sizeof(axs15231b_qspi_init) / sizeof(lcd_cmd_t); i++)
-
         {
             lcd_send_cmd(lcd_init[i].cmd,
                          (uint8_t *)lcd_init[i].data,

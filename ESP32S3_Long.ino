@@ -8,18 +8,18 @@
 */
 
 #include <Arduino.h>
-#include "AXS15231B.h"
-#include "time.h"
 #include <XPowersLib.h>
-PowersSY6970      PMU;
-
 #include <Wire.h>
-
 
 #include "Config.h"
 #include "Map.h"
-#include "Wolf128x128rotSwappedBytes.h"
-#include "WolfGRAY128x128rotSwappedBytes.h"
+#include "Texture_Wolf128x128rotSwappedBytes.h"
+#include "Texture_WolfGRAY128x128rotSwappedBytes.h"
+#include "Controller.h"
+#include "time.h"
+#include "AXS15231B.h"
+
+PowersSY6970 PMU;
 
 uint16_t* screen = new uint16_t[screenW * screenH];
 uint16_t* background = new uint16_t[screenH];
@@ -33,7 +33,7 @@ int32_t CTan_fp[around];
 //initial
 int xC = 2.5 * sqRes;
 int yC = 2.5 * sqRes;
-int angleC = 2200;
+int angleC = 400;
 int elevation_perc = 0; //as percentage from wall half height
 
 float X2Rad(int X) {
@@ -50,6 +50,8 @@ void setup()
     Serial.begin(115200); /* prepare for possible serial debug */
     Serial.println("setup start");
 
+    initController();
+
     pinMode(TFT_BL, OUTPUT);
     digitalWrite(TFT_BL, LOW);        // turn off backlight asap to minimise power on artifacts
 
@@ -64,7 +66,7 @@ void setup()
         Serial.println("PMU is not online...");
         delay(50);
     } else {
-        PMU.enableADCMeasure(); // To obtain voltage data, the ADC must be enabled first
+        PMU.enableMeasure(); // To obtain voltage data, the ADC must be enabled first
         PMU.disableStatLed();
         PMU.disableOTG();
         // This LED light is the charging indicator for the SY6970. It will not light up when used solely with a battery.
@@ -238,7 +240,7 @@ void Render() {
     lcd_PushColors(screen, 2 * screenW * screenH);
 
     auto t_show = millis();
-    Serial.printf("render: %2d ms,       show: %2d ms,       FPS: %.1f\n", t_render - t_start, t_show   - t_render, 1000.f / (t_show - t_prev));
+    //Serial.printf("render: %2d ms,       show: %2d ms,       FPS: %.1f\n", t_render - t_start, t_show   - t_render, 1000.f / (t_show - t_prev));
     t_prev = t_show;
 }
 
@@ -246,5 +248,7 @@ void loop()
 {
     Render();
 
-    angleC = (angleC + 5) % around;
+    loopController(&xC, &yC, &angleC, around);
+
+    //angleC = (angleC + 5) % around;
 }

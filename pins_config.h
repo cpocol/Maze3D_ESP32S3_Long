@@ -40,3 +40,24 @@
 #define TOUCH_IICSDA 15
 #define TOUCH_INT    11
 #define TOUCH_RES    16
+
+#define AXS_TOUCH_TWO_POINT_LEN             14  // (AXS_TOUCH_ONE_POINT_LEN *  2) +  2  Bytes
+#define AXS_TOUCH_ONE_POINT_LEN             6
+#define AXS_TOUCH_BUF_HEAD_LEN              2
+
+#define AXS_TOUCH_GESTURE_POS               0
+#define AXS_TOUCH_POINT_NUM                 1
+#define AXS_TOUCH_EVENT_POS                 2
+#define AXS_TOUCH_X_H_POS                   2
+#define AXS_TOUCH_X_L_POS                   3
+#define AXS_TOUCH_ID_POS                    4
+#define AXS_TOUCH_Y_H_POS                   4
+#define AXS_TOUCH_Y_L_POS                   5
+#define AXS_TOUCH_WEIGHT_POS                6
+#define AXS_TOUCH_AREA_POS                  7
+
+#define AXS_GET_POINT_NUM(buf) buf[AXS_TOUCH_POINT_NUM]
+#define AXS_GET_GESTURE_TYPE(buf)  buf[AXS_TOUCH_GESTURE_POS]
+#define AXS_GET_POINT_X(buf,point_index) (((uint16_t)(buf[AXS_TOUCH_ONE_POINT_LEN*point_index+AXS_TOUCH_X_H_POS] & 0x0F) <<8) + (uint16_t)buf[AXS_TOUCH_ONE_POINT_LEN*point_index+AXS_TOUCH_X_L_POS])
+#define AXS_GET_POINT_Y(buf,point_index) (((uint16_t)(buf[AXS_TOUCH_ONE_POINT_LEN*point_index+AXS_TOUCH_Y_H_POS] & 0x0F) <<8) + (uint16_t)buf[AXS_TOUCH_ONE_POINT_LEN*point_index+AXS_TOUCH_Y_L_POS])
+#define AXS_GET_POINT_EVENT(buf,point_index) (buf[AXS_TOUCH_ONE_POINT_LEN*point_index+AXS_TOUCH_EVENT_POS] >> 6)
