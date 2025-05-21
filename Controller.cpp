@@ -9,7 +9,7 @@
 // jump/crunch
 int maxJumpHeight = (int)(1.05 * sqResh); // jump this high
 int maxCrunchHeight = -(int)(0.7 * sqResh); // crunch this low
-float fFPS = 30; // approximate FPS
+float fFPS = 15; // approximate FPS
 int acceleratedMotion[200];
 int maxJump_idx, maxCrunch_idx;
 int verticalAdvance = 0;
@@ -96,45 +96,45 @@ void loopController(int* x, int* y, int* angle, int around) {
     uint8_t num = AXS_GET_POINT_NUM(buff);
     uint16_t type = AXS_GET_GESTURE_TYPE(buff);
 
-    if (num && !type)
+    for (int i = 0; i < num; i++)
     {
-        Serial.printf("num:%d", num);
-        for (int i = 0; i < num; ++i) {
-            Serial.print("     x"); Serial.print(i); Serial.print(": "); Serial.print(AXS_GET_POINT_X(buff, i));
-            Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(AXS_GET_POINT_Y(buff, i));
-        }
-        Serial.println();
-        
-        tx = AXS_GET_POINT_X(buff, 0);
-        ty = AXS_GET_POINT_Y(buff, 0);
-        if (tx > screenW * 9 / 10) // left third of the screen
-        {
-            if (ty > screenH * 2 / 3) // show map
-            ;
-            else if (ty < screenH / 3) // strafe left
-                move(x, y, (*angle - around / 4 + around) % around);
-            else // rotate left
-                rotate(angle, -ROTATE_SPD, around);
-        }
-        else
-        if (tx < screenW / 10) // right third of the screen
-        {
-            if (ty > screenH * 2 / 3) // crunch
-                bCrunch = 1;
-            else if (ty < screenH / 3) // strafe right
-                move(x, y, (*angle + around / 4 + around) % around);
-            else // rotate right
-                rotate(angle, +ROTATE_SPD, around);
-        }
-        else // center third of the screen
-        {
-            if (ty > screenH * 2 / 3) // jump
-                bJump = 1;
-            else if (ty < screenH / 3) // pedal backward
-                move(x, y, (*angle + around / 2) % around);
-            else // pedal forward
-                move(x, y, *angle);
-        }
+      tx = AXS_GET_POINT_X(buff, i);
+      ty = AXS_GET_POINT_Y(buff, i);
+      if (!type && (5 < ty) && (ty < 175))
+      {
+          Serial.print("     x"); Serial.print(i); Serial.print(": "); Serial.print(tx);
+          Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(ty);
+          Serial.println();
+
+          if (tx > screenW * 9 / 10) // left third of the screen
+          {
+              if (ty > screenH * 2 / 3) // show map
+              ;
+              else if (ty < screenH / 3) // strafe left
+                  move(x, y, (*angle - around / 4 + around) % around);
+              else // rotate left
+                  rotate(angle, -ROTATE_SPD, around);
+          }
+          else
+          if (tx < screenW / 10) // right third of the screen
+          {
+              if (ty > screenH * 2 / 3) // crunch
+                  bCrunch = 1;
+              else if (ty < screenH / 3) // strafe right
+                  move(x, y, (*angle + around / 4 + around) % around);
+              else // rotate right
+                  rotate(angle, +ROTATE_SPD, around);
+          }
+          else // center third of the screen
+          {
+              if (ty > screenH * 2 / 3) // jump
+                  bJump = 1;
+              else if (ty < screenH / 3) // pedal backward
+                  move(x, y, (*angle + around / 2) % around);
+              else // pedal forward
+                  move(x, y, *angle);
+          }
+      }
     }
 
     // jump
@@ -173,14 +173,14 @@ void loopController(int* x, int* y, int* angle, int around) {
     if (bCrunch && !jumping) {
         crunching = 1;
         if (z > maxCrunchHeight) {
-            z -= VERTICAL_SPD;
+            z -= CRUNCH_SPD;
             if (z < maxCrunchHeight)
                 z = maxCrunchHeight;
         }
     }
     else
     if (crunching) {
-        z += VERTICAL_SPD;
+        z += CRUNCH_SPD;
         if (z >= 0) {
             z = 0;
             crunching = 0;

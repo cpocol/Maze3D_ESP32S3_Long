@@ -2,7 +2,7 @@
 
 #define MOVE_SPD (10 * sqRes / 100)
 #define ROTATE_SPD 6
-#define VERTICAL_SPD (sqRes/25)
+#define CRUNCH_SPD (sqRes/15)
 
 // Buttons
 #define BUTTON1 35
