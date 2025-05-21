@@ -7,10 +7,14 @@
   PSRAM "OPI PSRAM"
 */
 
-#include "AXS15231B.h"
 #include <Arduino.h>
-//#include <math.h>
+#include "AXS15231B.h"
 #include "time.h"
+#include <XPowersLib.h>
+PowersSY6970      PMU;
+
+#include <Wire.h>
+
 
 #include "Config.h"
 #include "Map.h"
@@ -40,6 +44,7 @@ unsigned short swapBytes(unsigned short value) {
     return (value % 256) * 256 + (value / 256);
 }
 
+bool result = false;
 void setup()
 {
     Serial.begin(115200); /* prepare for possible serial debug */
@@ -52,6 +57,20 @@ void setup()
     lcd_setRotation(2);             // 180 degree hardware rotate if you want reset / boot buttons at the bottom
     lcd_fill(0,0,180,640,0x00);       // clear screen
     digitalWrite(TFT_BL, HIGH);       // turn on backlight
+
+    Wire.begin(TOUCH_IICSDA, TOUCH_IICSCL);
+    result =  PMU.init(Wire, TOUCH_IICSDA, TOUCH_IICSCL, SY6970_SLAVE_ADDRESS);
+    if (result == false) {
+        Serial.println("PMU is not online...");
+        delay(50);
+    } else {
+        PMU.enableADCMeasure(); // To obtain voltage data, the ADC must be enabled first
+        PMU.disableStatLed();
+        PMU.disableOTG();
+        // This LED light is the charging indicator for the SY6970. It will not light up when used solely with a battery.
+        // When the battery is not connected and the device is powered by USB, the green LED will flash. During charging, the green LED will stay on continuously.
+        // You can disable this LED function in the SY6970's registers.
+    }
 
     int16_t i, j;
     // precalculate

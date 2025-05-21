@@ -35,3 +35,8 @@
 #define PIN_BAT_VOLT          8
 #define PIN_BUTTON_1          0
 #define PIN_BUTTON_2          21
+
+#define TOUCH_IICSCL 10
+#define TOUCH_IICSDA 15
+#define TOUCH_INT    11
+#define TOUCH_RES    16
