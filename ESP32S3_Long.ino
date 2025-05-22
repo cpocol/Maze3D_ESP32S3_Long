@@ -13,8 +13,8 @@
 
 #include "Config.h"
 #include "Map.h"
-#include "Texture_Wolf128x128rotSwappedBytes.h"
-#include "Texture_WolfGRAY128x128rotSwappedBytes.h"
+#include "Texture_Wolf128x128rot_SwappedBytes.h"
+#include "Texture_WolfGRAY128x128rot_SwappedBytes.h"
 #include "Controller.h"
 #include "time.h"
 #include "AXS15231B.h"
@@ -103,7 +103,7 @@ void setup()
     //prepare background (floor and ceiling)
     for (i = 0; i < screenHh; i++) {
         background[i] = swapBytes(0b0010000100000100); //ceiling
-        background[screenHh + i] = swapBytes(0b0100001000001000); //floor
+        background[screenHh + i] = swapBytes(0b0101001010001010); //floor
     }
 }
 
@@ -198,9 +198,9 @@ void RenderColumn(int col, int h, int textureColumn, int wallID) {
     }
 
     uint16_t* screenAddr = screen + col * screenH + minRow;
-    const uint16_t* pTexture = Wolf128x128rotSwappedBytes;
+    const uint16_t* pTexture = Wolf128x128rot_SwappedBytes;
     if (wallID % 2) // different texture for N/S walls
-        pTexture = WolfGRAY128x128rotSwappedBytes;
+        pTexture = WolfGRAY128x128rot_SwappedBytes;
 
     //const uint16_t* textureAddr = pTexture + textureColumn;
     const uint16_t* textureAddr = pTexture + textureColumn * texRes; // huge speedup: 90 degs pre-rotated texture
