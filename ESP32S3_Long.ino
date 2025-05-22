@@ -18,8 +18,11 @@
 #include "Controller.h"
 #include "time.h"
 #include "AXS15231B.h"
+#include "MelodyPlayer.h"
 
 PowersSY6970 PMU;
+
+MelodyPlayer melodyPlayer(BUZZER_PIN);
 
 uint16_t* screen = new uint16_t[screenW * screenH];
 uint16_t* background = new uint16_t[screenH];
@@ -99,8 +102,8 @@ void setup()
 
     //prepare background (floor and ceiling)
     for (i = 0; i < screenHh; i++) {
-        background[i] = swapBytes(0x10A2); //ceiling
-        background[screenHh + i] = swapBytes(0x5ACB); //floor
+        background[i] = swapBytes(0b0010000100000100); //ceiling
+        background[screenHh + i] = swapBytes(0b0100001000001000); //floor
     }
 }
 

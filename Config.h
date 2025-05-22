@@ -27,3 +27,5 @@ const int texRes = (1 << 7);
 // viewer Current position, orientation and elevation_perc
 extern int xC, yC, angleC;
 extern int elevation_perc; // percentage
+
+#define BUZZER_PIN 8
