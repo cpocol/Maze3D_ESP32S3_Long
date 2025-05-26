@@ -13,8 +13,7 @@
 
 #include "Config.h"
 #include "Map.h"
-#include "Texture_Wolf128x128rot_SwappedBytes.h"
-#include "Texture_WolfGRAY128x128rot_SwappedBytes.h"
+#include "Textures.h"
 #include "Controller.h"
 #include "time.h"
 #include "AXS15231B.h"
@@ -32,6 +31,8 @@ const fptype mapSizeWidth_fp = (((fptype)mapSizeWidth) << fp), mapSizeHeight_fp 
 
 int32_t Tan_fp[around]; // fp bits fixed point
 int32_t CTan_fp[around];
+
+int frameCnt = 0;
 
 //initial
 int xC = 2.5 * sqRes;
@@ -107,7 +108,7 @@ void setup()
     }
 }
 
-//returns wall ID (as map position and cell face)
+//returns wall ID (as map position)
 int CastX(int16_t angle, fptype& xHit_fp, fptype& yHit_fp) { // hit vertical walls ||
     if ((angle == aroundq) || (angle == around3q))
         return -1; // CastY() will hit a wall correctly
@@ -136,7 +137,7 @@ int CastX(int16_t angle, fptype& xHit_fp, fptype& yHit_fp) { // hit vertical wal
     return int((yHit_fp / sqRes_fp) * mapWidth + (x / sqRes + adjXMap));
 }
 
-// returns wall ID (as map position and cell face)
+// returns wall ID (as map position)
 int CastY(int16_t angle, fptype& xHit_fp, fptype& yHit_fp) { // hit horizontal walls ==
     if ((angle == 0) || (angle == aroundh))
         return -1; // CastX() will hit a wall correctly
@@ -198,9 +199,32 @@ void RenderColumn(int col, int h, int textureColumn, int wallID) {
     }
 
     uint16_t* screenAddr = screen + col * screenH + minRow;
-    const uint16_t* pTexture = Wolf128x128rot_SwappedBytes;
-    if (wallID % 2) // different texture for N/S walls
-        pTexture = WolfGRAY128x128rot_SwappedBytes;
+
+    const uint16_t* pTexture = (wallID % 2) ? Wolf128x128rot_SwappedBytes : WolfGRAY128x128rot_SwappedBytes; // different texture for N/S walls
+
+    //special walls
+    int mapPosition = wallID / 2;
+    if (*(&Map[0][0] + mapPosition) == 22)
+    {
+        static const uint16_t* pTextures[] = {Doom000_SwappedBytes, Doom001_SwappedBytes, Doom002_SwappedBytes, Doom003_SwappedBytes, Doom004_SwappedBytes, Doom005_SwappedBytes, Doom006_SwappedBytes, Doom007_SwappedBytes, Doom008_SwappedBytes, Doom009_SwappedBytes,
+                                              Doom010_SwappedBytes, Doom011_SwappedBytes, Doom012_SwappedBytes, Doom013_SwappedBytes, Doom014_SwappedBytes, Doom015_SwappedBytes, Doom016_SwappedBytes, Doom017_SwappedBytes, Doom018_SwappedBytes, Doom019_SwappedBytes,
+                                              Doom020_SwappedBytes, Doom021_SwappedBytes, Doom022_SwappedBytes, Doom023_SwappedBytes, Doom024_SwappedBytes, Doom025_SwappedBytes, Doom026_SwappedBytes, Doom027_SwappedBytes, Doom028_SwappedBytes, Doom029_SwappedBytes,
+                                              Doom030_SwappedBytes, Doom031_SwappedBytes, Doom032_SwappedBytes, Doom033_SwappedBytes, Doom034_SwappedBytes, Doom035_SwappedBytes, Doom036_SwappedBytes, Doom037_SwappedBytes, Doom038_SwappedBytes, Doom039_SwappedBytes,
+                                              Doom040_SwappedBytes, Doom041_SwappedBytes, Doom042_SwappedBytes, Doom043_SwappedBytes, Doom044_SwappedBytes, Doom045_SwappedBytes, Doom046_SwappedBytes, Doom047_SwappedBytes, Doom048_SwappedBytes, Doom049_SwappedBytes,
+                                              Doom050_SwappedBytes, Doom051_SwappedBytes, Doom052_SwappedBytes, Doom053_SwappedBytes, Doom054_SwappedBytes, Doom055_SwappedBytes, Doom056_SwappedBytes, Doom057_SwappedBytes, Doom058_SwappedBytes, Doom059_SwappedBytes,
+                                              Doom060_SwappedBytes, Doom061_SwappedBytes, Doom062_SwappedBytes, Doom063_SwappedBytes, Doom064_SwappedBytes, Doom065_SwappedBytes, Doom066_SwappedBytes, Doom067_SwappedBytes, Doom068_SwappedBytes, Doom069_SwappedBytes,
+
+                                              Doom069_SwappedBytes, Doom068_SwappedBytes, Doom067_SwappedBytes, Doom066_SwappedBytes, Doom065_SwappedBytes, Doom064_SwappedBytes, Doom063_SwappedBytes, Doom062_SwappedBytes, Doom061_SwappedBytes, Doom060_SwappedBytes,
+                                              Doom059_SwappedBytes, Doom058_SwappedBytes, Doom057_SwappedBytes, Doom056_SwappedBytes, Doom055_SwappedBytes, Doom054_SwappedBytes, Doom053_SwappedBytes, Doom052_SwappedBytes, Doom051_SwappedBytes, Doom050_SwappedBytes,
+                                              Doom049_SwappedBytes, Doom048_SwappedBytes, Doom047_SwappedBytes, Doom046_SwappedBytes, Doom045_SwappedBytes, Doom044_SwappedBytes, Doom043_SwappedBytes, Doom042_SwappedBytes, Doom041_SwappedBytes, Doom040_SwappedBytes,
+                                              Doom039_SwappedBytes, Doom038_SwappedBytes, Doom037_SwappedBytes, Doom036_SwappedBytes, Doom035_SwappedBytes, Doom034_SwappedBytes, Doom033_SwappedBytes, Doom032_SwappedBytes, Doom031_SwappedBytes, Doom030_SwappedBytes,
+                                              Doom029_SwappedBytes, Doom028_SwappedBytes, Doom027_SwappedBytes, Doom026_SwappedBytes, Doom025_SwappedBytes, Doom024_SwappedBytes, Doom023_SwappedBytes, Doom022_SwappedBytes, Doom021_SwappedBytes, Doom020_SwappedBytes,
+                                              Doom019_SwappedBytes, Doom018_SwappedBytes, Doom017_SwappedBytes, Doom016_SwappedBytes, Doom015_SwappedBytes, Doom014_SwappedBytes, Doom013_SwappedBytes, Doom012_SwappedBytes, Doom011_SwappedBytes, Doom010_SwappedBytes,
+                                              Doom009_SwappedBytes, Doom008_SwappedBytes, Doom007_SwappedBytes, Doom006_SwappedBytes, Doom005_SwappedBytes, Doom004_SwappedBytes, Doom003_SwappedBytes, Doom002_SwappedBytes, Doom001_SwappedBytes, Doom000_SwappedBytes,
+                                              };
+        int texturesNum = sizeof(pTextures) / sizeof(pTextures[0]);
+        pTexture = pTextures[frameCnt % texturesNum];
+    }
 
     //const uint16_t* textureAddr = pTexture + textureColumn;
     const uint16_t* textureAddr = pTexture + textureColumn * texRes; // huge speedup: 90 degs pre-rotated texture
@@ -233,7 +257,7 @@ void Render() {
 
         int dist_sq = sq(xC - xHit) + sq(yC - yHit) + 1; // +1 avoids division by zero
         int h = int(sqRes * sqrt((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq) + 0.5);
-	      h = h / 2; // need to lower it for wide screens
+        h = h * 3 / 4; // need to lower it for wide screens
 
         RenderColumn(col, h, textureColumn, wallID);
     }
@@ -241,6 +265,8 @@ void Render() {
     auto t_render = millis();
 
     lcd_PushColors(screen, 2 * screenW * screenH);
+
+    frameCnt++;
 
     auto t_show = millis();
     //Serial.printf("render: %2d ms,       show: %2d ms,       FPS: %.1f\n", t_render - t_start, t_show   - t_render, 1000.f / (t_show - t_prev));

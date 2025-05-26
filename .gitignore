@@ -1,5 +1,6 @@
-ImageGeneration\bin
-ImageGeneration\obj
+ImageGeneration/Data
+ImageGeneration/bin
+ImageGeneration/obj
 *.o
 *.exe
 *.depend

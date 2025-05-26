@@ -100,7 +100,7 @@ void loopController(int* x, int* y, int* angle, int around) {
     {
       tx = AXS_GET_POINT_X(buff, i);
       ty = AXS_GET_POINT_Y(buff, i);
-      if (!type && (5 < ty) && (ty < 175))
+      if (!type && (5 < tx) && (tx < 635) && (5 < ty) && (ty < 175))
       {
           Serial.print("     x"); Serial.print(i); Serial.print(": "); Serial.print(tx);
           Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(ty);

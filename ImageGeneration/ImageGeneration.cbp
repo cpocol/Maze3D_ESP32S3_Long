@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="empty" />
+		<Option title="ImageGeneration" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/empty" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/ImageGeneration" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/empty" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/ImageGeneration" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -31,6 +31,216 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Doom000.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom001.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom002.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom003.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom004.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom005.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom006.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom007.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom008.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom009.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom010.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom011.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom012.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom013.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom014.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom015.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom016.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom017.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom018.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom019.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom020.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom021.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom022.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom023.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom024.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom025.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom026.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom027.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom028.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom029.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom030.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom031.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom032.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom033.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom034.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom035.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom036.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom037.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom038.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom039.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom040.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom041.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom042.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom043.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom044.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom045.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom046.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom047.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom048.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom049.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom050.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom051.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom052.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom053.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom054.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom055.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom056.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom057.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom058.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom059.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom060.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom061.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom062.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom063.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom064.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom065.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom066.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom067.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom068.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Doom069.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="ImageGeneration.c">
 			<Option compilerVar="CC" />
 		</Unit>
