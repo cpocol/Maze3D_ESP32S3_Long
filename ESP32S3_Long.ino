@@ -19,7 +19,7 @@
 #include "AXS15231B.h"
 #include "MelodyPlayer.h"
 
-PowersSY6970 PMU;
+PowersSY6970 PMU; //this helps turning off the annoying blinking LED
 
 MelodyPlayer melodyPlayer(BUZZER_PIN);
 
@@ -117,28 +117,31 @@ int CastX(int16_t angle, fptype& xHit_fp, fptype& yHit_fp) { // hit vertical wal
     if ((angle == aroundq) || (angle == around3q))
         return -1; // CastY() will hit a wall correctly
 
-    // prepare as for 1st or 4th quadrant
-    int x = (xC / sqRes) * sqRes + sqRes;
-    int dx = sqRes,   adjXMap = 0;
+    // prepare as for 1st or 4th quadrant (looking estward)
+    int xMap = (xC >> sqRes_pow2) + 1;
+    int dxMap = 1,   adjXMap = 0;
     fptype dy_fp = sqRes * Tan_fp[angle];
-    // 2nd or 3rd quadrant
+    // 2nd or 3rd quadrant (looking weastward)
     if ((aroundq < angle) && (angle < around3q)) {
-        x -= sqRes;
+        xMap--;
+        dxMap = -1;
         adjXMap = -1;
-        dx = -dx;
         dy_fp = -dy_fp;
     }
-    yHit_fp = (((fptype)yC) << fp) + (x - xC) * Tan_fp[angle];
+    yHit_fp = (((fptype)yC) << fp) + ((xMap << sqRes_pow2) - xC) * Tan_fp[angle];
 
-    while ((0 < yHit_fp) && (yHit_fp < mapSizeHeight_fp) && //(0 < x) && (x < mapSizeWidth) && suppose the map is well closed
-           (Map[(yHit_fp >> (fp + sqRes_pow2))][(x >> sqRes_pow2) + adjXMap] == 0)) {
-        x += dx;
+    xMap += adjXMap;
+    int yMap = yHit_fp >> (fp + sqRes_pow2);
+    while ((0 < yHit_fp) && (yHit_fp < mapSizeHeight_fp) && //(0 < xMap) && (xMap < mapWidth) && //suppose the map is well closed
+           (Map[yMap][xMap] == 0)) {
+        xMap += dxMap;
         yHit_fp += dy_fp;
+        yMap = yHit_fp >> (fp + sqRes_pow2);
     }
 
-    xHit_fp = (fptype)x << fp;
+    xHit_fp = (fptype)(xMap - adjXMap) << (sqRes_pow2 + fp);
 
-    return int((yHit_fp / sqRes_fp) * mapWidth + (x / sqRes + adjXMap));
+    return int(yMap * mapWidth + xMap);
 }
 
 // returns wall ID (as map position)
@@ -146,27 +149,30 @@ int CastY(int16_t angle, fptype& xHit_fp, fptype& yHit_fp) { // hit horizontal w
     if ((angle == 0) || (angle == aroundh))
         return -1; // CastX() will hit a wall correctly
 
-    // prepare as for 1st or 2nd quadrant
-    int y = (yC / sqRes) * sqRes + sqRes;
-    int dy = sqRes,   adjYMap = 0;
+    // prepare as for 1st or 2nd quadrant (lookog southward)
+    int yMap = (yC >> sqRes_pow2) + 1;
+    int dyMap = 1,   adjYMap = 0;
     fptype dx_fp = sqRes * CTan_fp[angle];
-    if (angle > aroundh) { // 3rd or 4th quadrants
-        y -= sqRes;
+    if (angle > aroundh) { // 3rd or 4th quadrants (looking northward)
+        yMap--;
+        dyMap = -1;
         adjYMap = -1;
-        dy = -dy;
         dx_fp = -dx_fp;
     }
-    xHit_fp = (((fptype)xC) << fp) + (y - yC) * CTan_fp[angle];
+    xHit_fp = (((fptype)xC) << fp) + ((yMap << sqRes_pow2) - yC) * CTan_fp[angle];
 
-    while ((0 < xHit_fp) && (xHit_fp < mapSizeWidth_fp) && //(0 < y) && (y < mapSizeHeight) && suppose the map is well closed
-           (Map[(y >> sqRes_pow2) + adjYMap][(xHit_fp >> (fp + sqRes_pow2))] == 0)) {
+    yMap += adjYMap;
+    int xMap = xHit_fp >> (fp + sqRes_pow2);
+    while ((0 < xHit_fp) && (xHit_fp < mapSizeWidth_fp) && //(0 < yMap) && (yMap < mapHeight) && //suppose the map is well closed
+           (Map[yMap][xMap] == 0)) {
         xHit_fp += dx_fp;
-        y += dy;
+        yMap += dyMap;
+        xMap = xHit_fp >> (fp + sqRes_pow2);
     }
 
-    yHit_fp = (fptype)y << fp;
+    yHit_fp = (fptype)(yMap - adjYMap) << (sqRes_pow2 + fp);
 
-    return int((y / sqRes + adjYMap) * mapWidth + (xHit_fp / sqRes_fp));
+    return int(yMap * mapWidth + xMap);
 }
 
 // returns wall ID (as map position and cell face)
@@ -278,7 +284,7 @@ void Render() {
             int ySpriteCenter = (mapPosition / mapWidth) * sqRes + sqResh;
             int distSpriteCenter_sq = sq(xC - xSpriteCenter) + sq(yC - ySpriteCenter) + 1; // +1 avoids division by zero
 
-            int angleSpriteCenter = (Rad2X(atan2f(ySpriteCenter - yC, xSpriteCenter - xC)) + around) % around;
+            int16_t angleSpriteCenter = (Rad2X(atan2f(ySpriteCenter - yC, xSpriteCenter - xC)) + around) % around;
 
             int16_t deltaColSpriteCenter = angleC - angleSpriteCenter;
 
@@ -311,7 +317,7 @@ void Render() {
     frameCnt++;
 
     auto t_show = millis();
-    //Serial.printf("render: %2d ms,       show: %2d ms,       FPS: %.1f\n", t_render - t_start, t_show   - t_render, 1000.f / (t_show - t_prev));
+    Serial.printf("render: %2d ms,       show: %2d ms,       FPS: %.1f\n", t_render - t_start, t_show - t_render, 1000.f / (t_show - t_prev));
     t_prev = t_show;
 }
 

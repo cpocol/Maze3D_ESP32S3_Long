@@ -6,4 +6,4 @@
 
 int Cast(int ang, int& xHit, int& yHit);
 
-extern const int8_t Map[16][14];
+extern const int8_t Map[16][16];
