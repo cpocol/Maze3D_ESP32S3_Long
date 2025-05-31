@@ -79,6 +79,8 @@ extern const unsigned short Doom067[];
 extern const unsigned short Doom068[];
 extern const unsigned short Doom069[];
 
+extern const unsigned short Sprite_PottedTree[];
+
 typedef struct
 {
     const unsigned short* TextureData;
@@ -164,6 +166,7 @@ Texture textures[] = {
     {Doom066, "Doom067"},
     {Doom068, "Doom068"},
     {Doom069, "Doom069"},
+    {Sprite_PottedTree, "Sprite_PottedTree"},
 };
 
 const int texturesNum = sizeof(textures)/sizeof(textures[0]);

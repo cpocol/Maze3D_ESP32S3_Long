@@ -1,5 +1,7 @@
 #pragma once
 
+#define ADJ_HEIGHT(h) ((h) * 3 / 4)
+
 #define MOVE_SPD (10 * sqRes / 100)
 #define ROTATE_SPD 6
 #define CRUNCH_SPD (sqRes/15)
@@ -22,9 +24,12 @@ const int sqRes = (1 << sqRes_pow2), sqResh = sqRes / 2;
 const fptype sqRes_fp = (fptype)sqRes << fp;
 const int safety_dist = 3; // to wall
 
-const int texRes = (1 << 7);
+const int texRes = (1 << 7), texResh = (1 << 6);
 
-// viewer Current position, orientation and elevation_perc
+const int32_t viewerToScreen_sq = sq(screenWh) * 3; // FOV = 60 degs => viewerToScreen = screenWh * sqrt(3)
+//const int32_t viewerToScreen_sq = sq(screenWh); // FOV = 90 degs => viewerToScreen = screenWh
+
+// viewer Current position, orientation and elevation
 extern int xC, yC, angleC;
 extern int elevation_perc; // percentage
 

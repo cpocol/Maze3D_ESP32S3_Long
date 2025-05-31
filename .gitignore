@@ -1,6 +1,7 @@
 ImageGeneration/Data
 ImageGeneration/bin
 ImageGeneration/obj
+.theia
 *.o
 *.exe
 *.depend
