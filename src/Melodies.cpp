@@ -1,0 +1,355 @@
+// -------------------------------------------------
+// Copyright (c) 2022 HiBit <https://www.hibit.dev>
+// -------------------------------------------------
+
+ #include "Melodies.h"
+
+const int PROGMEM melodyPinkPanther[] = {
+      NOTE_DS4, 
+      NOTE_E4, REST, NOTE_FS4, NOTE_G4, REST, NOTE_DS4,
+      NOTE_E4, NOTE_FS4,  NOTE_G4, NOTE_C5, NOTE_B4, NOTE_E4, NOTE_G4, NOTE_B4,   
+      NOTE_AS4, NOTE_A4, NOTE_G4, NOTE_E4, NOTE_D4, 
+      NOTE_E4, REST, REST, NOTE_DS4,
+  
+      NOTE_E4, REST, NOTE_FS4, NOTE_G4, REST, NOTE_DS4,
+      NOTE_E4, NOTE_FS4,  NOTE_G4, NOTE_C5, NOTE_B4, NOTE_G4, NOTE_B4, NOTE_E5,
+      NOTE_DS5,   
+      NOTE_D5, REST, REST, NOTE_DS4, 
+      NOTE_E4, REST, NOTE_FS4, NOTE_G4, REST, NOTE_DS4,
+      NOTE_E4, NOTE_FS4,  NOTE_G4, NOTE_C5, NOTE_B4, NOTE_E4, NOTE_G4, NOTE_B4,   
+  
+      NOTE_AS4, NOTE_A4, NOTE_G4, NOTE_E4, NOTE_D4, 
+      NOTE_E4, REST,
+      REST, NOTE_E5, NOTE_D5, NOTE_B4, NOTE_A4, NOTE_G4, NOTE_E4,
+      NOTE_AS4, NOTE_A4, NOTE_AS4, NOTE_A4, NOTE_AS4, NOTE_A4, NOTE_AS4, NOTE_A4,   
+      NOTE_G4, NOTE_E4, NOTE_D4, NOTE_E4, NOTE_E4, NOTE_E4
+};
+
+const int PROGMEM durationsPinkPanther[] = {
+      8, 
+      4, 8, 8, 4, 8, 8,
+      8, 8,  8, 8, 8, 8, 8, 8,   
+      2, 16, 16, 16, 16, 
+      2, 4, 8, 4,
+  
+      4, 8, 8, 4, 8, 8,
+      8, 8,  8, 8, 8, 8, 8, 8,
+      1,   
+      2, 4, 8, 8, 
+      4, 8, 8, 4, 8, 8,
+      8, 8,  8, 8, 8, 8, 8, 8,   
+  
+      2, 16, 16, 16, 16, 
+      4, 4,
+      4, 8, 8, 8, 8, 8, 8,
+      16, 8, 16, 8, 16, 8, 16, 8,   
+      16, 16, 16, 16, 16, 2
+};
+
+const int lengthPinkPanther = sizeof(melodyPinkPanther)/sizeof(melodyPinkPanther[0]);
+
+///////////////////////////////////////////////////////////////////////////////
+
+const int PROGMEM melodyNokia[] = {
+  NOTE_E5, NOTE_D5, NOTE_FS4, NOTE_GS4, 
+  NOTE_CS5, NOTE_B4, NOTE_D4, NOTE_E4, 
+  NOTE_B4, NOTE_A4, NOTE_CS4, NOTE_E4,
+  NOTE_A4
+};
+
+const int PROGMEM durationsNokia[] = {
+  8, 8, 4, 4,
+  8, 8, 4, 4,
+  8, 8, 4, 4,
+  2
+};
+
+const int lengthNokia = sizeof(melodyNokia)/sizeof(melodyNokia[0]);
+
+/////////////////////////////////////////////////////////////////////////////
+
+const int PROGMEM melodyHB[] = {
+  NOTE_C4, NOTE_C4, 
+  NOTE_D4, NOTE_C4, NOTE_F4,
+  NOTE_E4, NOTE_C4, NOTE_C4, 
+  NOTE_D4, NOTE_C4, NOTE_G4,
+  NOTE_F4, NOTE_C4, NOTE_C4,
+  
+  NOTE_C5, NOTE_A4, NOTE_F4, 
+  NOTE_E4, NOTE_D4, NOTE_AS4, NOTE_AS4,
+  NOTE_A4, NOTE_F4, NOTE_G4,
+  NOTE_F4
+};
+
+const int PROGMEM durationsHB[] = {
+  4, 8, 
+  4, 4, 4,
+  2, 4, 8, 
+  4, 4, 4,
+  2, 4, 8,
+  
+  4, 4, 4, 
+  4, 4, 4, 8,
+  4, 4, 4,
+  2
+};
+
+const int lengthHB = sizeof(melodyHB)/sizeof(melodyHB[0]);
+
+const int PROGMEM melodyDoom[] = {
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_FS3, NOTE_D3, NOTE_B2, NOTE_A3, NOTE_FS3, NOTE_B2, NOTE_D3, NOTE_FS3, NOTE_A3, NOTE_FS3, NOTE_D3, NOTE_B2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_B3, NOTE_G3, NOTE_E3, NOTE_G3, NOTE_B3, NOTE_E4, NOTE_G3, NOTE_B3, NOTE_E4, NOTE_B3, NOTE_G4, NOTE_B4,
+  
+  NOTE_A2, NOTE_A2, NOTE_A3, NOTE_A2, NOTE_A2, NOTE_G3, NOTE_A2, NOTE_A2, 
+  NOTE_F3, NOTE_A2, NOTE_A2, NOTE_DS3, NOTE_A2, NOTE_A2, NOTE_E3, NOTE_F3,
+  NOTE_A2, NOTE_A2, NOTE_A3, NOTE_A2, NOTE_A2, NOTE_G3, NOTE_A2, NOTE_A2,
+  NOTE_F3, NOTE_A2, NOTE_A2, NOTE_DS3,
+  
+  NOTE_A2, NOTE_A2, NOTE_A3, NOTE_A2, NOTE_A2, NOTE_G3, NOTE_A2, NOTE_A2, 
+  NOTE_F3, NOTE_A2, NOTE_A2, NOTE_DS3, NOTE_A2, NOTE_A2, NOTE_E3, NOTE_F3,
+  NOTE_A2, NOTE_A2, NOTE_A3, NOTE_A2, NOTE_A2, NOTE_G3, NOTE_A2, NOTE_A2,
+  NOTE_A3, NOTE_F3, NOTE_D3, NOTE_A3, NOTE_F3, NOTE_D3, NOTE_C4, NOTE_A3, NOTE_F3, NOTE_A3, NOTE_F3, NOTE_D3,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_CS3, NOTE_CS3, NOTE_CS4, NOTE_CS3, NOTE_CS3, NOTE_B3, NOTE_CS3, NOTE_CS3, 
+  NOTE_A3, NOTE_CS3, NOTE_CS3, NOTE_G3, NOTE_CS3, NOTE_CS3, NOTE_GS3, NOTE_A3,
+  NOTE_B2, NOTE_B2, NOTE_B3, NOTE_B2, NOTE_B2, NOTE_A3, NOTE_B2, NOTE_B2,
+  NOTE_G3, NOTE_B2, NOTE_B2, NOTE_F3,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_B3, NOTE_G3, NOTE_E3, NOTE_G3, NOTE_B3, NOTE_E4, NOTE_G3, NOTE_B3, NOTE_E4, NOTE_B3, NOTE_G4, NOTE_B4,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_FS3, NOTE_DS3, NOTE_B2, NOTE_FS3, NOTE_DS3, NOTE_B2, NOTE_G3, NOTE_D3, NOTE_B2, NOTE_DS4, NOTE_DS3, NOTE_B2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_E4, NOTE_B3, NOTE_G3, NOTE_G4, NOTE_E4, NOTE_G3, NOTE_B3, NOTE_D4, NOTE_E4, NOTE_G4, NOTE_E4, NOTE_G3,  
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_A2, NOTE_A2, NOTE_A3, NOTE_A2, NOTE_A2, NOTE_G3, NOTE_A2, NOTE_A2, 
+  NOTE_F3, NOTE_A2, NOTE_A2, NOTE_DS3, NOTE_A2, NOTE_A2, NOTE_E3, NOTE_F3,
+  NOTE_A2, NOTE_A2, NOTE_A3, NOTE_A2, NOTE_A2, NOTE_G3, NOTE_A2, NOTE_A2,
+  NOTE_A3, NOTE_F3, NOTE_D3, NOTE_A3, NOTE_F3, NOTE_D3, NOTE_C4, NOTE_A3, NOTE_F3, NOTE_A3, NOTE_F3, NOTE_D3,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2,
+  
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2, 
+  NOTE_C3, NOTE_E2, NOTE_E2, NOTE_AS2, NOTE_E2, NOTE_E2, NOTE_B2, NOTE_C3,
+  NOTE_E2, NOTE_E2, NOTE_E3, NOTE_E2, NOTE_E2, NOTE_D3, NOTE_E2, NOTE_E2,
+  NOTE_B3, NOTE_G3, NOTE_E3, NOTE_B2, NOTE_E3, NOTE_G3, NOTE_C4, NOTE_B3, NOTE_G3, NOTE_B3, NOTE_G3, NOTE_E3
+};
+
+const int PROGMEM durationsDoom[] = {
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,  
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 2,
+  
+  8, 8, 8, 8, 8, 8, 8, 8, 
+  8, 8, 8, 8, 8, 8, 8, 8,
+  8, 8, 8, 8, 8, 8, 8, 8,
+  16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16
+};
+
+const int lengthDoom = sizeof(melodyDoom)/sizeof(melodyDoom[0]);
+
+const int PROGMEM melodyIceIceBaby[] = {
+  NOTE_D3, REST, NOTE_D3, REST, NOTE_D3, REST, NOTE_D3, NOTE_D3, NOTE_D3, NOTE_A2, REST,
+  NOTE_D3, REST, NOTE_D3, REST, NOTE_D3, REST, NOTE_D3, NOTE_D3, NOTE_D3, NOTE_A2, REST,
+  NOTE_D3, REST, NOTE_D3, REST, NOTE_D3, REST, NOTE_D3, NOTE_D3, NOTE_D3, NOTE_A2, REST,
+  NOTE_D3,
+  NOTE_D4, REST, NOTE_D4, NOTE_D4, REST,
+  NOTE_E3, NOTE_D3, NOTE_F3, REST, NOTE_F3,
+  NOTE_D4, REST, NOTE_D4, NOTE_D4, REST,
+  NOTE_D3,
+  NOTE_D4, REST, NOTE_D4, NOTE_D4, REST,
+  NOTE_E3, NOTE_D3, NOTE_F3, REST, NOTE_F3,
+  NOTE_D4,
+  REST
+};
+
+const int PROGMEM durationsIceIceBaby[] = {
+  8, 16, 8, 16, 8, 16, 10, 10, 10, 3, 2,
+  8, 16, 8, 16, 8, 16, 10, 10, 10, 3, 2,
+  8, 16, 8, 16, 8, 16, 10, 10, 10, 3, 2,
+  4,
+  4, 3, 4, 4, 3,
+  6, 6, 6, 33, 6,
+  4, 3, 4, 4, 3,
+  4,
+  4, 3, 4, 4, 3,
+  6, 6, 6, 33, 6,
+  3,
+  1
+};
+
+const int lengthIceIceBaby = sizeof(melodyIceIceBaby)/sizeof(melodyIceIceBaby[0]);

@@ -6,3 +6,5 @@ ImageGeneration/obj
 *.exe
 *.depend
 *.layout
+
+plan.txt
