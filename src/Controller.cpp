@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include "Config.h"
 #include "Controller.h"
-#include "Main.h"
+#include "Globals.h"
 #include "Map.h"
 #include "AXS15231B.h"
 
@@ -27,17 +27,18 @@ void move(int* x, int* y, int angle) {
     int adjXMap = ((aroundq < angle) && (angle < around3q)) ? -1 : 0;
     int adjYMap = (angle > aroundh) ? -1 : 0;
 
-    TCastResponse result = Cast(angle);
-    if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - result.xHit) + sq(*y - result.yHit)) { // inside wall
-        if (!result.horizontalWall) { // vertical wall ||
-            *x = result.xHit + safetyX;
+    TCastResponse responses[MAX_RESPONSES];
+    Cast(angle, responses);
+    if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - responses[0].xHit) + sq(*y - responses[0].yHit)) { // inside wall
+        if (!responses[0].horizontalWall) { // vertical wall ||
+            *x = responses[0].xHit + safetyX;
             *y = yTest;                           //               __
             if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
                 *y = (yTest / sqRes - adjYMap) * sqRes + safetyY;
         }
         else { // horizontal wall ==
             *x = xTest;
-            *y = result.yHit + safetyY;           //               __
+            *y = responses[0].yHit + safetyY;           //               __
             if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
                 *x = (xTest / sqRes - adjXMap) * sqRes + safetyX;
         }

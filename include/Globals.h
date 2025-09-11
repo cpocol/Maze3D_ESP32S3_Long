@@ -10,4 +10,7 @@ typedef struct {
     bool horizontalWall;
 } TCastResponse;
 
-TCastResponse Cast(int ang);
+#define MAX_RESPONSES_XY 5
+#define MAX_RESPONSES (2 * MAX_RESPONSES_XY)
+
+int Cast(int angle, TCastResponse responses[MAX_RESPONSES]);

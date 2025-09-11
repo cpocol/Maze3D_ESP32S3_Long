@@ -1,6 +1,7 @@
 #define COMMON_WALL 11
 #define DOOM_WALL 22
-#define TREE_SPRITE 23
+#define SPRITE 30
+#define TREE_SPRITE (SPRITE + 0)
 
 //short ones as well
 #define CW COMMON_WALL
