@@ -100,10 +100,9 @@ static void lcd_send_cmd(uint32_t cmd, uint8_t *dat, uint32_t len)
     if(0)
     {
         WriteComm(cmd);
-        if (len != 0) {
+        if (len != 0)
             for (int i = 0; i < len; i++)
                 WriteData(dat[i]);
-        }
     }
 }
 
@@ -214,9 +213,8 @@ void lcd_address_set(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
         {0x2b, {(uint8_t)(y1 >> 8), (uint8_t)(y1), (uint8_t)(y2 >> 8), (uint8_t)(y2)}, 0x04},
     };
 
-    for (uint32_t i = 0; i < 2; i++) {
+    for (uint32_t i = 0; i < 2; i++)
         lcd_send_cmd(t[i].cmd, t[i].data, t[i].len);
-    }
 }
 
 void lcd_fill(uint16_t xsta,
@@ -230,9 +228,7 @@ void lcd_fill(uint16_t xsta,
     uint16_t *color_p = (uint16_t *)heap_caps_malloc(w * h * 2, MALLOC_CAP_INTERNAL);
     int i = 0;
     for(i = 0; i < w * h ; i+=1)
-    {
         color_p[i] = color;
-    }
 
     lcd_PushColors(xsta, ysta, w, h, color_p);
     free(color_p);
@@ -284,9 +280,8 @@ void spi_device_queue_trans_fun(spi_device_handle_t handle, spi_transaction_t *t
 
         do {
             if(transfer_num >= 3 || ESP.getFreeHeap() <= 70000)
-            {
                 break;
-            }
+
             size_t chunk_size = lcd_PushColors_len;
 
             memset(&t, 0, sizeof(t));
@@ -303,9 +298,9 @@ void spi_device_queue_trans_fun(spi_device_handle_t handle, spi_transaction_t *t
                 t.address_bits = 0;
                 t.dummy_bits = 0;
             }
-            if (chunk_size > SEND_BUF_SIZE) {
+            if (chunk_size > SEND_BUF_SIZE)
                 chunk_size = SEND_BUF_SIZE;
-            }
+
             t.base.tx_buffer = p;
             t.base.length = chunk_size * 16;
 
@@ -342,26 +337,23 @@ void spi_device_queue_trans_fun(spi_device_handle_t handle, spi_transaction_t *t
             spi_transaction_ext_t t = {0};
             memset(&t, 0, sizeof(t));
             if (1) {
-                t.base.flags =
-                    SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
+                t.base.flags = SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
                 t.base.cmd = 0x32 /* 0x12 */;
                 if(first_send)
-                {
                     t.base.addr = 0x002C00;
-                }
                 else 
                     t.base.addr = 0x003C00;
                 first_send = 0;
             } else {
                 t.base.flags = SPI_TRANS_MODE_QIO | SPI_TRANS_VARIABLE_CMD |
-                            SPI_TRANS_VARIABLE_ADDR | SPI_TRANS_VARIABLE_DUMMY;
+                               SPI_TRANS_VARIABLE_ADDR | SPI_TRANS_VARIABLE_DUMMY;
                 t.command_bits = 0;
                 t.address_bits = 0;
                 t.dummy_bits = 0;
             }
-            if (chunk_size > SEND_BUF_SIZE) {
+            if (chunk_size > SEND_BUF_SIZE)
                 chunk_size = SEND_BUF_SIZE;
-            }
+
             t.base.tx_buffer = p;
             t.base.length = chunk_size * 16;
             int aaa = 0;
@@ -409,9 +401,9 @@ void lcd_PushColors(uint16_t *data, uint32_t len)
             t.address_bits = 0;
             t.dummy_bits = 0;
         }
-        if (chunk_size > SEND_BUF_SIZE) {
+        if (chunk_size > SEND_BUF_SIZE)
             chunk_size = SEND_BUF_SIZE;
-        }
+
         t.base.tx_buffer = p;
         t.base.length = chunk_size * 16;
 

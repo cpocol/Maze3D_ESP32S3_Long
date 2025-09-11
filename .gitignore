@@ -6,5 +6,6 @@ ImageGeneration/obj
 *.exe
 *.depend
 *.layout
+.pio
 
 plan.txt

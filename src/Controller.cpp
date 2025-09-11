@@ -27,18 +27,17 @@ void move(int* x, int* y, int angle) {
     int adjXMap = ((aroundq < angle) && (angle < around3q)) ? -1 : 0;
     int adjYMap = (angle > aroundh) ? -1 : 0;
 
-    int xWall, yWall;
-    int wallID = Cast(angle, xWall, yWall);
-    if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - xWall) + sq(*y - yWall)) { // inside wall
-        if (wallID % 2 == 0) { // vertical wall ||
-            *x = xWall + safetyX;
-            *y = yTest;                          //                __
+    TCastResponse result = Cast(angle);
+    if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - result.xHit) + sq(*y - result.yHit)) { // inside wall
+        if (!result.horizontalWall) { // vertical wall ||
+            *x = result.xHit + safetyX;
+            *y = yTest;                           //               __
             if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
                 *y = (yTest / sqRes - adjYMap) * sqRes + safetyY;
         }
         else { // horizontal wall ==
             *x = xTest;
-            *y = yWall + safetyY;                //                __
+            *y = result.yHit + safetyY;           //               __
             if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
                 *x = (xTest / sqRes - adjXMap) * sqRes + safetyX;
         }

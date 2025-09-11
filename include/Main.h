@@ -4,6 +4,10 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 #define max(a,b) ((a) > (b) ? (a) : (b))
 
-int Cast(int ang, int& xHit, int& yHit);
+typedef struct {
+    int16_t xHit, yHit;
+    int16_t xMap, yMap;
+    bool horizontalWall;
+} TCastResponse;
 
-extern const int8_t Map[16][16];
+TCastResponse Cast(int ang);

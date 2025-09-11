@@ -12,6 +12,7 @@
 #include <Wire.h>
 
 #include "Config.h"
+#include "Main.h"
 #include "Map.h"
 #include "Textures.h"
 #include "Controller.h"
@@ -31,6 +32,11 @@ const fptype mapSizeWidth_fp = (((fptype)mapSizeWidth) << fp), mapSizeHeight_fp 
 
 int32_t Tan_fp[around]; // fp bits fixed point
 int32_t CTan_fp[around];
+
+typedef struct {
+    fptype xHit_fp, yHit_fp;
+    int xMap, yMap;
+} TCastResponse_fp;
 
 int frameCnt = 0;
 
@@ -112,88 +118,97 @@ void setup()
     }
 }
 
-//returns wall ID (as map position)
-int CastX(int16_t angle, fptype& xHit_fp, fptype& yHit_fp) { // hit vertical walls ||
-    if ((angle == aroundq) || (angle == around3q))
-        return -1; // CastY() will hit a wall correctly
+TCastResponse_fp CastX(int16_t angle) { // hit vertical walls ||
+    TCastResponse_fp result;
+    if ((angle == aroundq) || (angle == around3q)) {
+        result.xHit_fp = 1000000000;
+        result.yHit_fp = 1000000000;
+        return result; // CastY() will hit a wall correctly
+    }
 
     // prepare as for 1st or 4th quadrant (looking estward)
-    int xMap = (xC >> sqRes_pow2) + 1;
+    result.xMap = (xC >> sqRes_pow2) + 1;
     int dxMap = 1,   adjXMap = 0;
     fptype dy_fp = sqRes * Tan_fp[angle];
-    // 2nd or 3rd quadrant (looking weastward)
-    if ((aroundq < angle) && (angle < around3q)) {
-        xMap--;
+    if ((aroundq < angle) && (angle < around3q)) { // 2nd or 3rd quadrant (looking weastward)
+        result.xMap--;
         dxMap = -1;
         adjXMap = -1;
         dy_fp = -dy_fp;
     }
-    yHit_fp = (((fptype)yC) << fp) + ((xMap << sqRes_pow2) - xC) * Tan_fp[angle];
+    result.yHit_fp = (((fptype)yC) << fp) + ((result.xMap << sqRes_pow2) - xC) * Tan_fp[angle];
 
-    xMap += adjXMap;
-    int yMap = yHit_fp >> (fp + sqRes_pow2);
-    while ((0 < yHit_fp) && (yHit_fp < mapSizeHeight_fp) && //(0 < xMap) && (xMap < mapWidth) && //suppose the map is well closed
-           (Map[yMap][xMap] == 0)) {
-        xMap += dxMap;
-        yHit_fp += dy_fp;
-        yMap = yHit_fp >> (fp + sqRes_pow2);
+    result.xMap += adjXMap;
+    result.yMap = result.yHit_fp >> (fp + sqRes_pow2);
+    while ((0 < result.yHit_fp) && (result.yHit_fp < mapSizeHeight_fp) && //(0 < result.xMap) && (result.xMap < mapWidth) && //suppose the map is well closed
+           (Map[result.yMap][result.xMap] == 0)) {
+        result.xMap += dxMap;
+        result.yHit_fp += dy_fp;
+        result.yMap = result.yHit_fp >> (fp + sqRes_pow2);
     }
 
-    xHit_fp = (fptype)(xMap - adjXMap) << (sqRes_pow2 + fp);
+    result.xHit_fp = (fptype)(result.xMap - adjXMap) << (sqRes_pow2 + fp);
 
-    return int(yMap * mapWidth + xMap);
+    return result;
 }
 
-// returns wall ID (as map position)
-int CastY(int16_t angle, fptype& xHit_fp, fptype& yHit_fp) { // hit horizontal walls ==
-    if ((angle == 0) || (angle == aroundh))
-        return -1; // CastX() will hit a wall correctly
+TCastResponse_fp CastY(int16_t angle) { // hit horizontal walls ==
+    TCastResponse_fp result;
+    if ((angle == 0) || (angle == aroundh)) {
+        result.xHit_fp = 1000000000;
+        result.yHit_fp = 1000000000;
+        return result; // CastX() will hit a wall correctly
+    }
 
     // prepare as for 1st or 2nd quadrant (lookog southward)
-    int yMap = (yC >> sqRes_pow2) + 1;
+    result.yMap = (yC >> sqRes_pow2) + 1;
     int dyMap = 1,   adjYMap = 0;
     fptype dx_fp = sqRes * CTan_fp[angle];
     if (angle > aroundh) { // 3rd or 4th quadrants (looking northward)
-        yMap--;
+        result.yMap--;
         dyMap = -1;
         adjYMap = -1;
         dx_fp = -dx_fp;
     }
-    xHit_fp = (((fptype)xC) << fp) + ((yMap << sqRes_pow2) - yC) * CTan_fp[angle];
+    result.xHit_fp = (((fptype)xC) << fp) + ((result.yMap << sqRes_pow2) - yC) * CTan_fp[angle];
 
-    yMap += adjYMap;
-    int xMap = xHit_fp >> (fp + sqRes_pow2);
-    while ((0 < xHit_fp) && (xHit_fp < mapSizeWidth_fp) && //(0 < yMap) && (yMap < mapHeight) && //suppose the map is well closed
-           (Map[yMap][xMap] == 0)) {
-        xHit_fp += dx_fp;
-        yMap += dyMap;
-        xMap = xHit_fp >> (fp + sqRes_pow2);
+    result.yMap += adjYMap;
+    result.xMap = result.xHit_fp >> (fp + sqRes_pow2);
+    while ((0 < result.xHit_fp) && (result.xHit_fp < mapSizeWidth_fp) && //(0 < result.yMap) && (result.yMap < mapHeight) && //suppose the map is well closed
+           (Map[result.yMap][result.xMap] == 0)) {
+        result.xHit_fp += dx_fp;
+        result.yMap += dyMap;
+        result.xMap = result.xHit_fp >> (fp + sqRes_pow2);
     }
 
-    yHit_fp = (fptype)(yMap - adjYMap) << (sqRes_pow2 + fp);
+    result.yHit_fp = (fptype)(result.yMap - adjYMap) << (sqRes_pow2 + fp);
 
-    return int(yMap * mapWidth + xMap);
+    return result;
 }
 
-// returns wall ID (as map position and cell face)
-int Cast(int angle, int& xHit, int& yHit) {
-    fptype xX_fp = 1000000000, yX_fp = xX_fp, xY_fp = xX_fp, yY_fp = xX_fp;
-    int wallIDX = CastX(angle, xX_fp, yX_fp);
-    int wallIDY = CastY(angle, xY_fp, yY_fp);
+TCastResponse Cast(int angle) {
+    TCastResponse_fp resultX = CastX(angle);
+    TCastResponse_fp resultY = CastY(angle);
+    TCastResponse result;
     // choose the nearest hit point
-    if (llabs(((fptype)xC << fp) - xX_fp) < llabs(((fptype)xC << fp) - xY_fp)) { // vertical wall ||
-        xHit = int(xX_fp >> fp);
-        yHit = int(yX_fp >> fp);
-        return 2 * wallIDX + 0;
+    if (llabs(((fptype)xC << fp) - resultX.xHit_fp) < llabs(((fptype)xC << fp) - resultY.xHit_fp)) { // vertical wall ||
+        result.xHit = int(resultX.xHit_fp >> fp);
+        result.yHit = int(resultX.yHit_fp >> fp);
+        result.xMap = resultX.xMap;
+        result.yMap = resultX.yMap;
+        result.horizontalWall = false;
     }
     else { // horizontal wall ==
-        xHit = int(xY_fp >> fp);
-        yHit = int(yY_fp >> fp);
-        return 2 * wallIDY + 1;
+        result.xHit = int(resultY.xHit_fp >> fp);
+        result.yHit = int(resultY.yHit_fp >> fp);
+        result.xMap = resultY.xMap;
+        result.yMap = resultY.yMap;
+        result.horizontalWall = true;
     }
+    return result;
 }
 
-void RenderColumn(int col, int h, int textureColumn, int wallID) {
+void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
 // the initial version was modified in order to produce an image that's rotated with 90 degrees
 // this way, there is no need to rotate it when flushing on the screen of T-Display S3 Long
 
@@ -208,8 +223,7 @@ void RenderColumn(int col, int h, int textureColumn, int wallID) {
         minRow = 0;
     }
 
-    int mapPosition = wallID / 2;
-    int8_t mapCell = *(&Map[0][0] + mapPosition);
+    int8_t mapCell = *(&Map[0][0] + response.yMap * mapWidth + response.xMap);
 
     const uint16_t* pTexture;
 
@@ -238,7 +252,7 @@ void RenderColumn(int col, int h, int textureColumn, int wallID) {
     }
     else {
         static const uint16_t* pTextures[] = {WolfGRAY128x128rot_SwappedBytes, Wolf128x128rot_SwappedBytes};
-        pTexture = pTextures[wallID & 1]; // different texture for N/S walls
+        pTexture = pTextures[response.horizontalWall]; // different texture for N/S walls
     }
 
     uint16_t* screenAddr = screen + col * screenH + minRow;
@@ -270,18 +284,16 @@ void Render() {
 
     for (int16_t col = 0; col < screenW; col++) {
         int16_t ang = (angleC + screenWh - col + around) % around; //grows to the left of screen center
-        int xHit, yHit;
-        int wallID = Cast(ang, xHit, yHit);
+        TCastResponse result = Cast(ang);
 
         int32_t h, textureColumn;
 
-        int mapPosition = wallID / 2;
-        int8_t mapCell = *(&Map[0][0] + mapPosition);
+        int8_t mapCell = *(&Map[0][0] + int(result.yMap * mapWidth + result.xMap));
 
         if (mapCell == TREE_SPRITE)
         {
-            int xSpriteCenter = (mapPosition % mapWidth) * sqRes + sqResh;
-            int ySpriteCenter = (mapPosition / mapWidth) * sqRes + sqResh;
+            int xSpriteCenter = result.xMap * sqRes + sqResh;
+            int ySpriteCenter = result.yMap * sqRes + sqResh;
             int distSpriteCenter_sq = sq(xC - xSpriteCenter) + sq(yC - ySpriteCenter) + 1; // +1 avoids division by zero
 
             int16_t angleSpriteCenter = (Rad2X(atan2f(ySpriteCenter - yC, xSpriteCenter - xC)) + around) % around;
@@ -300,14 +312,14 @@ void Render() {
         }
         else
         {
-            textureColumn = ((xHit + yHit) % sqRes) * texRes / sqRes;
+            textureColumn = ((result.xHit + result.yHit) % sqRes) * texRes / sqRes;
 
-            int dist_sq = sq(xC - xHit) + sq(yC - yHit) + 1; // +1 avoids division by zero
+            int dist_sq = sq(xC - result.xHit) + sq(yC - result.yHit) + 1; // +1 avoids division by zero
             h = int(sqRes * sqrt((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq));
         }
 
         h = ADJ_HEIGHT(h); // need to lower it for wide screens
-        RenderColumn(col, h, textureColumn, wallID);
+        RenderColumn(col, h, textureColumn, result);
     }
 
     auto t_render = millis();
@@ -317,7 +329,8 @@ void Render() {
     frameCnt++;
 
     auto t_show = millis();
-    Serial.printf("render: %2d ms,       show: %2d ms,       FPS: %.1f\n", t_render - t_start, t_show - t_render, 1000.f / (t_show - t_prev));
+    Serial.printf("Render: %2d ms     Send to screen: %2d ms     FPS: %.1f\n", t_render - t_start, t_show - t_render, 1000.f / (t_show - t_prev));
+    
     t_prev = t_show;
 }
 
