@@ -21,6 +21,8 @@
 #include "AXS15231B.h"
 #include "MelodyPlayer.h"
 
+#define DEBUG_COL (640 - 190)
+
 PowersSY6970 PMU; //this helps turning off the annoying blinking LED
 
 MelodyPlayer melodyPlayer(BUZZER_PIN);
@@ -66,6 +68,7 @@ bool result = false;
 void setup()
 {
     Serial.begin(115200); /* prepare for possible serial debug */
+    delay(200); // just give Serial some time to start
     Serial.println("setup start");
 
     initController();
@@ -165,6 +168,10 @@ int CastX(int16_t angle, TCastResponse_fp responses[MAX_RESPONSES_XY]) { // hit 
 
         if (Map[response.yMap][response.xMap] < SPRITE) // fully opaque
             break;
+
+        response.xMap += dxMap;
+        response.yHit_fp += dy_fp;
+        response.yMap = response.yHit_fp >> (fp + sqRes_pow2);
     }
 
     return cnt;
@@ -209,16 +216,34 @@ int CastY(int16_t angle, TCastResponse_fp responses[MAX_RESPONSES_XY]) { // hit 
 
         if (Map[response.yMap][response.xMap] < SPRITE) // fully opaque
             break;
-    }
+
+        response.xHit_fp += dx_fp;
+        response.yMap += dyMap;
+        response.xMap = response.xHit_fp >> (fp + sqRes_pow2);
+     }
 
     return cnt;
 }
 
-int Cast(int angle, TCastResponse responses[MAX_RESPONSES]) {
+int Cast(int col, int angle, TCastResponse responses[MAX_RESPONSES]) {
     int cnt = 0;
     TCastResponse_fp responsesX[MAX_RESPONSES_XY], responsesY[MAX_RESPONSES_XY];
     int responsesCntX = CastX(angle, responsesX);
     int responsesCntY = CastY(angle, responsesY);
+
+    // static int n = 0;
+    // //if (n < 700)
+    // {
+    //     if (col == DEBUG_COL && n == 0) {
+    //         n++;
+    //         Serial.println("CastX");
+    //         for (int i = 0; i < responsesCntX; i++)
+    //             Serial.printf("%d, %d, %d\n", (responsesX[i].xHit_fp >> fp), (responsesX[i].yHit_fp >> fp), Map[responsesX[i].yMap][responsesX[i].xMap]);
+    //         Serial.println("CastY");
+    //         for (int i = 0; i < responsesCntY; i++)
+    //             Serial.printf("%d, %d, %d\n", (responsesY[i].xHit_fp >> fp), (responsesY[i].yHit_fp >> fp), Map[responsesX[i].yMap][responsesX[i].xMap]);
+    //     }
+    // }
 
     // interleave responses
     int cntX = 0, cntY = 0;
@@ -259,6 +284,17 @@ int Cast(int angle, TCastResponse responses[MAX_RESPONSES]) {
         cntY++;
         cnt++;
     }
+
+    // static int m = 0;
+    // //if (n < 700)
+    // {
+    //     if (col == DEBUG_COL && m == 0) {
+    //         m++;
+    //         Serial.println("Cast");
+    //         for (int i = 0; i < cnt; i++)
+    //             Serial.printf("%d, %d\n", responses[i].xHit, responses[i].yHit);
+    //     }
+    // }
 
     return cnt;
 }
@@ -340,7 +376,7 @@ void Render() {
     for (int16_t col = 0; col < screenW; col++) {
         int16_t ang = (angleC + screenWh - col + around) % around; //grows to the left of screen center
         TCastResponse responses[MAX_RESPONSES];
-        int responsesCnt = Cast(ang, responses);
+        int responsesCnt = Cast(col, ang, responses);
 
         int32_t h, textureColumn;
 
@@ -389,6 +425,7 @@ void Render() {
         }
     }
 
+    //sprite.drawLine(XY(640 - DEBUG_COL, 0), XY(640 - DEBUG_COL, 180), TFT_RED);
     renderController(sprite);
 
     auto t_render = millis();

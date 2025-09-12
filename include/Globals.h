@@ -10,10 +10,10 @@ typedef struct {
     bool horizontalWall;
 } TCastResponse;
 
-#define MAX_RESPONSES_XY 5
+#define MAX_RESPONSES_XY 10
 #define MAX_RESPONSES (2 * MAX_RESPONSES_XY)
 
-int Cast(int angle, TCastResponse responses[MAX_RESPONSES]);
+int Cast(int col, int angle, TCastResponse responses[MAX_RESPONSES]);
 
 //convert screen coordinates
-#define XY(x, y) (y), (639 - x)
+#define XY(x, y) (y), (639 - (x))

@@ -34,7 +34,7 @@ void move(int* x, int* y, int angle) {
     int adjYMap = (angle > aroundh) ? -1 : 0;
 
     TCastResponse responses[MAX_RESPONSES];
-    Cast(angle, responses);
+    Cast(0, angle, responses);
     if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - responses[0].xHit) + sq(*y - responses[0].yHit)) { // inside wall
         if (!responses[0].horizontalWall) { // vertical wall ||
             *x = responses[0].xHit + safetyX;
@@ -108,9 +108,9 @@ void loopController(int* x, int* y, int* angle, int around) {
       ty = AXS_GET_POINT_Y(buff, i);
       if (!type && (5 < tx) && (tx < 635) && (5 < ty) && (ty < 175))
       {
-          Serial.print("     x"); Serial.print(i); Serial.print(": "); Serial.print(tx);
-          Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(ty);
-          Serial.println();
+        //   Serial.print("     x"); Serial.print(i); Serial.print(": "); Serial.print(tx);
+        //   Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(ty);
+        //   Serial.println();
 
           if (tx > THIRD_LEFT) // left third of the screen
           {
@@ -197,8 +197,8 @@ void loopController(int* x, int* y, int* angle, int around) {
 }
 
 void renderController(TFT_eSprite& sprite) {
-    sprite.drawLine(XY(THIRD_LEFT, 0), XY(THIRD_LEFT, 180), TFT_RED);
-    sprite.drawLine(XY(THIRD_RIGHT, 0), XY(THIRD_RIGHT, 180), TFT_RED);
-    sprite.drawLine(XY(0, THIRD_TOP), XY(640, THIRD_TOP), TFT_RED);
-    sprite.drawLine(XY(0, THIRD_BOTTOM), XY(640, THIRD_BOTTOM), TFT_RED);
+    // sprite.drawLine(XY(THIRD_LEFT, 0), XY(THIRD_LEFT, 180), TFT_RED);
+    // sprite.drawLine(XY(THIRD_RIGHT, 0), XY(THIRD_RIGHT, 180), TFT_RED);
+    // sprite.drawLine(XY(0, THIRD_TOP), XY(640, THIRD_TOP), TFT_RED);
+    // sprite.drawLine(XY(0, THIRD_BOTTOM), XY(640, THIRD_BOTTOM), TFT_RED);
 }
