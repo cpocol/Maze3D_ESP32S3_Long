@@ -138,20 +138,25 @@ int CastX(int16_t angle, TCastResponse_fp responses[MAX_RESPONSES_XY]) { // hit 
         adjXMap = -1;
         dy_fp = -dy_fp;
     }
-    response.yHit_fp = (((fptype)yC) << fp) + ((response.xMap << sqRes_pow2) - xC) * Tan_fp[angle];
 
+    response.yHit_fp = (((fptype)yC) << fp) + ((response.xMap << sqRes_pow2) - xC) * Tan_fp[angle];
     response.xMap += adjXMap;
     response.yMap = response.yHit_fp >> (fp + sqRes_pow2);
-    while ((0 < response.yHit_fp) && (response.yHit_fp < mapSizeHeight_fp) && //(0 < response.xMap) && (response.xMap < mapWidth) && //suppose the map is well closed
-           (Map[response.yMap][response.xMap] == 0)) {
-        response.xMap += dxMap;
-        response.yHit_fp += dy_fp;
-        response.yMap = response.yHit_fp >> (fp + sqRes_pow2);
+
+    while (cnt < MAX_RESPONSES_XY) {
+        while ((0 < response.yHit_fp) && (response.yHit_fp < mapSizeHeight_fp) && //(0 < response.xMap) && (response.xMap < mapWidth) && //suppose the map is well closed
+            (Map[response.yMap][response.xMap] == 0)) {
+            response.xMap += dxMap;
+            response.yHit_fp += dy_fp;
+            response.yMap = response.yHit_fp >> (fp + sqRes_pow2);
+        }
+        response.xHit_fp = (fptype)(response.xMap - adjXMap) << (sqRes_pow2 + fp);
+
+        responses[cnt++] = response;
+
+        if (Map[response.yMap][response.xMap] < SPRITE) // fully opaque
+            break;
     }
-
-    response.xHit_fp = (fptype)(response.xMap - adjXMap) << (sqRes_pow2 + fp);
-
-    responses[cnt++] = response;
 
     return cnt;
 }
@@ -176,20 +181,26 @@ int CastY(int16_t angle, TCastResponse_fp responses[MAX_RESPONSES_XY]) { // hit 
         adjYMap = -1;
         dx_fp = -dx_fp;
     }
-    response.xHit_fp = (((fptype)xC) << fp) + ((response.yMap << sqRes_pow2) - yC) * CTan_fp[angle];
 
+    response.xHit_fp = (((fptype)xC) << fp) + ((response.yMap << sqRes_pow2) - yC) * CTan_fp[angle];
     response.yMap += adjYMap;
     response.xMap = response.xHit_fp >> (fp + sqRes_pow2);
-    while ((0 < response.xHit_fp) && (response.xHit_fp < mapSizeWidth_fp) && //(0 < response.yMap) && (response.yMap < mapHeight) && //suppose the map is well closed
-           (Map[response.yMap][response.xMap] == 0)) {
-        response.xHit_fp += dx_fp;
-        response.yMap += dyMap;
-        response.xMap = response.xHit_fp >> (fp + sqRes_pow2);
+
+    while (cnt < MAX_RESPONSES_XY) {
+        while ((0 < response.xHit_fp) && (response.xHit_fp < mapSizeWidth_fp) && //(0 < response.yMap) && (response.yMap < mapHeight) && //suppose the map is well closed
+            (Map[response.yMap][response.xMap] == 0)) {
+            response.xHit_fp += dx_fp;
+            response.yMap += dyMap;
+            response.xMap = response.xHit_fp >> (fp + sqRes_pow2);
+        }
+
+        response.yHit_fp = (fptype)(response.yMap - adjYMap) << (sqRes_pow2 + fp);
+
+        responses[cnt++] = response;
+
+        if (Map[response.yMap][response.xMap] < SPRITE) // fully opaque
+            break;
     }
-
-    response.yHit_fp = (fptype)(response.yMap - adjYMap) << (sqRes_pow2 + fp);
-
-    responses[cnt++] = response;
 
     return cnt;
 }
@@ -199,22 +210,47 @@ int Cast(int angle, TCastResponse responses[MAX_RESPONSES]) {
     TCastResponse_fp responsesX[MAX_RESPONSES_XY], responsesY[MAX_RESPONSES_XY];
     int responsesCntX = CastX(angle, responsesX);
     int responsesCntY = CastY(angle, responsesY);
-    // choose the nearest hit point
-    if (llabs(((fptype)xC << fp) - responsesX[0].xHit_fp) < llabs(((fptype)xC << fp) - responsesY[0].xHit_fp)) { // vertical wall ||
-        responses[cnt].xHit = int(responsesX[0].xHit_fp >> fp);
-        responses[cnt].yHit = int(responsesX[0].yHit_fp >> fp);
-        responses[cnt].xMap = responsesX[0].xMap;
-        responses[cnt].yMap = responsesX[0].yMap;
+
+    // interleave responses
+    int cntX = 0, cntY = 0;
+    while ((cntX < responsesCntX) && (cntY < responsesCntY)) {
+        if (llabs(((fptype)xC << fp) - responsesX[cntX].xHit_fp) < llabs(((fptype)xC << fp) - responsesY[cntY].xHit_fp)) { // vertical wall ||
+            responses[cnt].xHit = int(responsesX[cntX].xHit_fp >> fp);
+            responses[cnt].yHit = int(responsesX[cntX].yHit_fp >> fp);
+            responses[cnt].xMap = responsesX[cntX].xMap;
+            responses[cnt].yMap = responsesX[cntX].yMap;
+            responses[cnt].horizontalWall = false;
+            cntX++;
+        }
+        else { // horizontal wall ==
+            responses[cnt].xHit = int(responsesY[cntY].xHit_fp >> fp);
+            responses[cnt].yHit = int(responsesY[cntY].yHit_fp >> fp);
+            responses[cnt].xMap = responsesY[cntY].xMap;
+            responses[cnt].yMap = responsesY[cntY].yMap;
+            responses[cnt].horizontalWall = true;
+            cntY++;
+        }
+        cnt++;
+    }
+    while (cntX < responsesCntX) {
+        responses[cnt].xHit = int(responsesX[cntX].xHit_fp >> fp);
+        responses[cnt].yHit = int(responsesX[cntX].yHit_fp >> fp);
+        responses[cnt].xMap = responsesX[cntX].xMap;
+        responses[cnt].yMap = responsesX[cntX].yMap;
         responses[cnt].horizontalWall = false;
+        cntX++;
+        cnt++;
     }
-    else { // horizontal wall ==
-        responses[cnt].xHit = int(responsesY[0].xHit_fp >> fp);
-        responses[cnt].yHit = int(responsesY[0].yHit_fp >> fp);
-        responses[cnt].xMap = responsesY[0].xMap;
-        responses[cnt].yMap = responsesY[0].yMap;
+    while (cntY < responsesCntY) {
+        responses[cnt].xHit = int(responsesY[cntY].xHit_fp >> fp);
+        responses[cnt].yHit = int(responsesY[cntY].yHit_fp >> fp);
+        responses[cnt].xMap = responsesY[cntY].xMap;
+        responses[cnt].yMap = responsesY[cntY].yMap;
         responses[cnt].horizontalWall = true;
+        cntY++;
+        cnt++;
     }
-    cnt++;
+
     return cnt;
 }
 
@@ -233,7 +269,7 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
         minRow = 0;
     }
 
-    int8_t mapCell = *(&Map[0][0] + response.yMap * mapWidth + response.xMap);
+    int8_t mapCell = Map[response.yMap][response.xMap];
 
     const uint16_t* pTexture;
 
@@ -299,38 +335,49 @@ void Render() {
 
         int32_t h, textureColumn;
 
-        int8_t mapCell = *(&Map[0][0] + int(responses[0].yMap * mapWidth + responses[0].xMap));
+        int farthestOpaqueResponse = 0;
+        for (int i = 0; i < responsesCnt; i++)
+            if (Map[responses[i].yMap][responses[i].xMap] < SPRITE) {
+                farthestOpaqueResponse = i;
+                break;
+            }
 
-        if (mapCell == TREE_SPRITE)
-        {
-            int xSpriteCenter = responses[0].xMap * sqRes + sqResh;
-            int ySpriteCenter = responses[0].yMap * sqRes + sqResh;
-            int distSpriteCenter_sq = sq(xC - xSpriteCenter) + sq(yC - ySpriteCenter) + 1; // +1 avoids division by zero
+        //render responses from far to near
+        for (int i = farthestOpaqueResponse; i >= 0; i--) {
+        //for (int i = responsesCnt - 1; i >= 0; i--) {
+            int8_t mapCell = Map[responses[i].yMap][responses[i].xMap];
 
-            int16_t angleSpriteCenter = (Rad2X(atan2f(ySpriteCenter - yC, xSpriteCenter - xC)) + around) % around;
+            if (mapCell == TREE_SPRITE)
+            {
+                int xSpriteCenter = responses[i].xMap * sqRes + sqResh;
+                int ySpriteCenter = responses[i].yMap * sqRes + sqResh;
+                int distSpriteCenter_sq = sq(xC - xSpriteCenter) + sq(yC - ySpriteCenter) + 1; // +1 avoids division by zero
 
-            int16_t deltaColSpriteCenter = angleC - angleSpriteCenter;
+                int16_t angleSpriteCenter = (Rad2X(atan2f(ySpriteCenter - yC, xSpriteCenter - xC)) + around) % around;
 
-            h = int(sqRes * sqrt((viewerToScreen_sq + sq(deltaColSpriteCenter)) / (float)distSpriteCenter_sq));
+                int16_t deltaColSpriteCenter = angleC - angleSpriteCenter;
 
-            textureColumn = (screenWh - col) * texRes / h;
-            textureColumn += 64 * texRes;
-            textureColumn %= texRes;
+                h = int(sqRes * sqrt((viewerToScreen_sq + sq(deltaColSpriteCenter)) / (float)distSpriteCenter_sq));
 
-            textureColumn = (angleSpriteCenter - ang) * texRes / h + texResh;
-            if ((textureColumn < 0) || (textureColumn >= texRes))
-                continue;
+                textureColumn = (screenWh - col) * texRes / h;
+                textureColumn += 64 * texRes;
+                textureColumn %= texRes;
+
+                textureColumn = (angleSpriteCenter - ang) * texRes / h + texResh;
+                if ((textureColumn < 0) || (textureColumn >= texRes))
+                    continue;
+            }
+            else
+            {
+                textureColumn = ((responses[i].xHit + responses[i].yHit) % sqRes) * texRes / sqRes;
+
+                int dist_sq = sq(xC - responses[i].xHit) + sq(yC - responses[i].yHit) + 1; // +1 avoids division by zero
+                h = int(sqRes * sqrt((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq));
+            }
+
+            h = ADJ_HEIGHT(h); // need to lower it for wide screens
+            RenderColumn(col, h, textureColumn, responses[i]);
         }
-        else
-        {
-            textureColumn = ((responses[0].xHit + responses[0].yHit) % sqRes) * texRes / sqRes;
-
-            int dist_sq = sq(xC - responses[0].xHit) + sq(yC - responses[0].yHit) + 1; // +1 avoids division by zero
-            h = int(sqRes * sqrt((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq));
-        }
-
-        h = ADJ_HEIGHT(h); // need to lower it for wide screens
-        RenderColumn(col, h, textureColumn, responses[0]);
     }
 
     auto t_render = millis();
