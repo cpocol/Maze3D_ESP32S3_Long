@@ -2,6 +2,7 @@
 
 /***********************config*************************/
 
+#undef SPI_FREQUENCY
 #define SPI_FREQUENCY         32000000 // corruption occured at 40000000 so 32000000 is probably a safe upper limit
 #define TFT_SPI_MODE          SPI_MODE0
 #define TFT_SPI_HOST          SPI2_HOST

@@ -8,6 +8,7 @@
 */
 
 #include <Arduino.h>
+#include <TFT_eSPI.h>
 #include <XPowersLib.h>
 #include <Wire.h>
 
@@ -24,7 +25,10 @@ PowersSY6970 PMU; //this helps turning off the annoying blinking LED
 
 MelodyPlayer melodyPlayer(BUZZER_PIN);
 
-uint16_t* screen = new uint16_t[screenW * screenH];
+TFT_eSPI tft = TFT_eSPI();
+TFT_eSprite sprite = TFT_eSprite(&tft);
+
+uint16_t* screen = NULL;
 uint16_t* background = new uint16_t[screenH];
 
 const int16_t mapSizeHeight = mapHeight * sqRes, mapSizeWidth = mapWidth * sqRes;
@@ -71,8 +75,13 @@ void setup()
 
     axs15231_init();
     lcd_setRotation(2);             // 180 degree hardware rotate if you want reset / boot buttons at the bottom
-    lcd_fill(0,0,180,640,0x00);       // clear screen
-    digitalWrite(TFT_BL, HIGH);       // turn on backlight
+    lcd_fill(0, 0, 180, 640, 0x00); // clear screen
+    digitalWrite(TFT_BL, HIGH);     // turn on backlight
+
+    sprite.createSprite(180, 640);
+    sprite.setRotation(3); //not working?
+    sprite.setSwapBytes(1);
+    screen = (uint16_t*)sprite.getPointer();
 
     Wire.begin(TOUCH_IICSDA, TOUCH_IICSCL);
     result =  PMU.init(Wire, TOUCH_IICSDA, TOUCH_IICSCL, SY6970_SLAVE_ADDRESS);
@@ -379,6 +388,8 @@ void Render() {
             RenderColumn(col, h, textureColumn, responses[i]);
         }
     }
+
+    renderController(sprite);
 
     auto t_render = millis();
 

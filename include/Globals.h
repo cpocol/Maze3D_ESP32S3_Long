@@ -14,3 +14,6 @@ typedef struct {
 #define MAX_RESPONSES (2 * MAX_RESPONSES_XY)
 
 int Cast(int angle, TCastResponse responses[MAX_RESPONSES]);
+
+//convert screen coordinates
+#define XY(x, y) (y), (639 - x)

@@ -6,6 +6,12 @@
 #include "Map.h"
 #include "AXS15231B.h"
 
+// touch areas
+#define THIRD_LEFT   (screenW * 9 / 10)
+#define THIRD_RIGHT  (screenW / 10)
+#define THIRD_TOP    (screenH * 2 / 3)
+#define THIRD_BOTTOM (screenH / 3)
+
 // jump/crunch
 int maxJumpHeight = (int)(1.05 * sqResh); // jump this high
 int maxCrunchHeight = -(int)(0.7 * sqResh); // crunch this low
@@ -106,30 +112,30 @@ void loopController(int* x, int* y, int* angle, int around) {
           Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(ty);
           Serial.println();
 
-          if (tx > screenW * 9 / 10) // left third of the screen
+          if (tx > THIRD_LEFT) // left third of the screen
           {
-              if (ty > screenH * 2 / 3) // show map
+              if (ty > THIRD_TOP) // show map
               ;
-              else if (ty < screenH / 3) // strafe left
+              else if (ty < THIRD_BOTTOM) // strafe left
                   move(x, y, (*angle - around / 4 + around) % around);
               else // rotate left
                   rotate(angle, -ROTATE_SPD, around);
           }
           else
-          if (tx < screenW / 10) // right third of the screen
+          if (tx < THIRD_RIGHT) // right third of the screen
           {
-              if (ty > screenH * 2 / 3) // crunch
+              if (ty > THIRD_TOP) // crunch
                   bCrunch = 1;
-              else if (ty < screenH / 3) // strafe right
+              else if (ty < THIRD_BOTTOM) // strafe right
                   move(x, y, (*angle + around / 4 + around) % around);
               else // rotate right
                   rotate(angle, +ROTATE_SPD, around);
           }
           else // center third of the screen
           {
-              if (ty > screenH * 2 / 3) // jump
+              if (ty > THIRD_TOP) // jump
                   bJump = 1;
-              else if (ty < screenH / 3) // pedal backward
+              else if (ty < THIRD_BOTTOM) // pedal backward
                   move(x, y, (*angle + around / 2) % around);
               else // pedal forward
                   move(x, y, *angle);
@@ -188,4 +194,11 @@ void loopController(int* x, int* y, int* angle, int around) {
     }
     
     elevation_perc = 100 * z / sqResh; // as percentage from wall half height
+}
+
+void renderController(TFT_eSprite& sprite) {
+    sprite.drawLine(XY(THIRD_LEFT, 0), XY(THIRD_LEFT, 180), TFT_RED);
+    sprite.drawLine(XY(THIRD_RIGHT, 0), XY(THIRD_RIGHT, 180), TFT_RED);
+    sprite.drawLine(XY(0, THIRD_TOP), XY(640, THIRD_TOP), TFT_RED);
+    sprite.drawLine(XY(0, THIRD_BOTTOM), XY(640, THIRD_BOTTOM), TFT_RED);
 }
