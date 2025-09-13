@@ -60,6 +60,20 @@ int Rad2X(float rad) {
     return (int)(rad * aroundh / 3.1415f);
 }
 
+int DiffAngles(int ang1, int ang2) { //suppose FOV is less than PI
+    ang1 = (ang1 + 16 * around) % around;
+    ang2 = (ang2 + 16 * around) % around;
+
+    int diff = ang1 - ang2;
+    // when the two vectors are placed on both sides of the Ox axis
+    if ((ang2 > around3q) && (ang1 < aroundq))
+        diff = (around - ang2) + (ang1 - 0);
+    if ((ang1 > around3q) && (ang2 < aroundq))
+        diff = (around - ang1) + (ang2 - 0);
+
+    return diff;
+}
+
 unsigned short swapBytes(unsigned short value) {
     return (value % 256) * 256 + (value / 256);
 }
@@ -166,7 +180,7 @@ int CastX(int16_t angle, TCastResponse_fp responses[MAX_RESPONSES_XY]) { // hit 
 
         responses[cnt++] = response;
 
-        if (Map[response.yMap][response.xMap] < SPRITE) // fully opaque
+        if (Map[response.yMap][response.xMap] < SPRITE) // opaque
             break;
 
         response.xMap += dxMap;
@@ -214,7 +228,7 @@ int CastY(int16_t angle, TCastResponse_fp responses[MAX_RESPONSES_XY]) { // hit 
 
         responses[cnt++] = response;
 
-        if (Map[response.yMap][response.xMap] < SPRITE) // fully opaque
+        if (Map[response.yMap][response.xMap] < SPRITE) // opaque
             break;
 
         response.xHit_fp += dx_fp;
@@ -319,8 +333,11 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
     const uint16_t* pTexture;
 
     //special walls/sprites
-    if (mapCell == TREE_SPRITE)
+    if (mapCell == SPRITE_TREE)
         pTexture = Sprite_PottedTree_SwappedBytes;
+    else
+    if (mapCell == SPRITE_BARREL)
+        pTexture = Sprite_Barrel_SwappedBytes;
     else
     if (mapCell == DOOM_WALL) {
         static const uint16_t* pTextures[] = {Doom000_SwappedBytes, Doom001_SwappedBytes, Doom002_SwappedBytes, Doom003_SwappedBytes, Doom004_SwappedBytes, Doom005_SwappedBytes, Doom006_SwappedBytes, Doom007_SwappedBytes, Doom008_SwappedBytes, Doom009_SwappedBytes,
@@ -330,7 +347,6 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
                                               Doom040_SwappedBytes, Doom041_SwappedBytes, Doom042_SwappedBytes, Doom043_SwappedBytes, Doom044_SwappedBytes, Doom045_SwappedBytes, Doom046_SwappedBytes, Doom047_SwappedBytes, Doom048_SwappedBytes, Doom049_SwappedBytes,
                                               Doom050_SwappedBytes, Doom051_SwappedBytes, Doom052_SwappedBytes, Doom053_SwappedBytes, Doom054_SwappedBytes, Doom055_SwappedBytes, Doom056_SwappedBytes, Doom057_SwappedBytes, Doom058_SwappedBytes, Doom059_SwappedBytes,
                                               Doom060_SwappedBytes, Doom061_SwappedBytes, Doom062_SwappedBytes, Doom063_SwappedBytes, Doom064_SwappedBytes, Doom065_SwappedBytes, Doom066_SwappedBytes, Doom067_SwappedBytes, Doom068_SwappedBytes, Doom069_SwappedBytes,
-
                                               Doom069_SwappedBytes, Doom068_SwappedBytes, Doom067_SwappedBytes, Doom066_SwappedBytes, Doom065_SwappedBytes, Doom064_SwappedBytes, Doom063_SwappedBytes, Doom062_SwappedBytes, Doom061_SwappedBytes, Doom060_SwappedBytes,
                                               Doom059_SwappedBytes, Doom058_SwappedBytes, Doom057_SwappedBytes, Doom056_SwappedBytes, Doom055_SwappedBytes, Doom054_SwappedBytes, Doom053_SwappedBytes, Doom052_SwappedBytes, Doom051_SwappedBytes, Doom050_SwappedBytes,
                                               Doom049_SwappedBytes, Doom048_SwappedBytes, Doom047_SwappedBytes, Doom046_SwappedBytes, Doom045_SwappedBytes, Doom044_SwappedBytes, Doom043_SwappedBytes, Doom042_SwappedBytes, Doom041_SwappedBytes, Doom040_SwappedBytes,
@@ -349,7 +365,7 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
     uint16_t* screenAddr = screen + col * screenH + minRow;
     const uint16_t* textureAddr = pTexture + textureColumn * texRes; // huge speedup: 90 degs pre-rotated texture; access it row wise (cache memory principles)
 
-    if (mapCell == TREE_SPRITE)
+    if (mapCell >= SPRITE)
         for (int row = minRow; row < maxRow; row++, textureRow_fp += Dh_fp, screenAddr++) {
             uint16_t tex = *(textureAddr + (textureRow_fp >> 22));
 
@@ -380,44 +396,44 @@ void Render() {
 
         int32_t h, textureColumn;
 
-        int farthestOpaqueResponse = 0;
+        int nearestOpaqueResponse = 0;
         for (int i = 0; i < responsesCnt; i++)
             if (Map[responses[i].yMap][responses[i].xMap] < SPRITE) {
-                farthestOpaqueResponse = i;
+                nearestOpaqueResponse = i;
                 break;
             }
 
         //render responses from far to near
-        for (int i = farthestOpaqueResponse; i >= 0; i--) {
-        //for (int i = responsesCnt - 1; i >= 0; i--) {
+        for (int i = nearestOpaqueResponse; i >= 0; i--) {
             int8_t mapCell = Map[responses[i].yMap][responses[i].xMap];
 
-            if (mapCell == TREE_SPRITE)
+            if (mapCell >= SPRITE)
             {
                 int xSpriteCenter = responses[i].xMap * sqRes + sqResh;
                 int ySpriteCenter = responses[i].yMap * sqRes + sqResh;
                 int distSpriteCenter_sq = sq(xC - xSpriteCenter) + sq(yC - ySpriteCenter) + 1; // +1 avoids division by zero
 
-                int16_t angleSpriteCenter = (Rad2X(atan2f(ySpriteCenter - yC, xSpriteCenter - xC)) + around) % around;
+                int angleSpriteCenter = (Rad2X(atan2f(ySpriteCenter - yC, xSpriteCenter - xC)) + around) % around;
 
-                int16_t deltaColSpriteCenter = angleC - angleSpriteCenter;
+                int deltaColSpriteCenter = DiffAngles(angleSpriteCenter, angleC);
 
-                h = int(sqRes * sqrt((viewerToScreen_sq + sq(deltaColSpriteCenter)) / (float)distSpriteCenter_sq));
+                h = int(sqRes * sqrtf((viewerToScreen_sq + sq(deltaColSpriteCenter)) / (float)distSpriteCenter_sq));
 
-                textureColumn = (screenWh - col) * texRes / h;
-                textureColumn += 64 * texRes;
-                textureColumn %= texRes;
+                int w = h; // can be used interchangeably as the textures are square and the projective geometry is the same for both vertical and horizontal axes
 
-                textureColumn = (angleSpriteCenter - ang) * texRes / h + texResh;
+                int deltaColSpriteColumn = DiffAngles(angleSpriteCenter, ang);
+                deltaColSpriteColumn = abs(deltaColSpriteColumn); //quick fix, but the left half is shown mirrored
+
+                textureColumn = deltaColSpriteColumn * texRes / w + texResh;
                 if ((textureColumn < 0) || (textureColumn >= texRes))
                     continue;
             }
             else
             {
-                textureColumn = ((responses[i].xHit + responses[i].yHit) % sqRes) * texRes / sqRes;
-
                 int dist_sq = sq(xC - responses[i].xHit) + sq(yC - responses[i].yHit) + 1; // +1 avoids division by zero
-                h = int(sqRes * sqrt((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq));
+                h = int(sqRes * sqrtf((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq));
+
+                textureColumn = ((responses[i].xHit + responses[i].yHit) % sqRes) * texRes / sqRes;
             }
 
             h = ADJ_HEIGHT(h); // need to lower it for wide screens

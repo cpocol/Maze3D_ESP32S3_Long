@@ -244,6 +244,9 @@
 		<Unit filename="ImageGeneration.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Sprite_Barrel.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Sprite_PottedTree.c">
 			<Option compilerVar="CC" />
 		</Unit>
