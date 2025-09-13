@@ -35,19 +35,25 @@ void move(int* x, int* y, int angle) {
 
     TCastResponse responses[MAX_RESPONSES];
     Cast(0, angle, responses);
-    if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - responses[0].xHit) + sq(*y - responses[0].yHit)) { // inside wall
-        if (!responses[0].horizontalWall) { // vertical wall ||
-            *x = responses[0].xHit + safetyX;
-            *y = yTest;                           //               __
-            if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
-                *y = (yTest / sqRes - adjYMap) * sqRes + safetyY;
+    int8_t mapCell = Map[responses[0].yMap][responses[0].xMap];
+    if ((0 < mapCell) && (mapCell < WALK_THROUGH_SPRITE))
+    {
+        if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - responses[0].xHit) + sq(*y - responses[0].yHit)) { // inside wall
+            if (!responses[0].horizontalWall) { // vertical wall ||
+                *x = responses[0].xHit + safetyX;
+                *y = yTest;                           //               __
+                if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
+                    *y = (yTest / sqRes - adjYMap) * sqRes + safetyY;
+            }
+            else { // horizontal wall ==
+                *x = xTest;
+                *y = responses[0].yHit + safetyY;           //               __
+                if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
+                    *x = (xTest / sqRes - adjXMap) * sqRes + safetyX;
+            }
         }
-        else { // horizontal wall ==
-            *x = xTest;
-            *y = responses[0].yHit + safetyY;           //               __
-            if (Map[*y / sqRes][*x / sqRes] != 0) // it's a corner |
-                *x = (xTest / sqRes - adjXMap) * sqRes + safetyX;
-        }
+        else // free cell
+            *x = xTest, *y = yTest;
     }
     else // free cell
         *x = xTest, *y = yTest;

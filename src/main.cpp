@@ -339,6 +339,9 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
     if (mapCell == SPRITE_BARREL)
         pTexture = Sprite_Barrel_SwappedBytes;
     else
+    if (mapCell == SPRITE_LAMP)
+        pTexture = Sprite_Lamp_SwappedBytes;
+    else
     if (mapCell == DOOM_WALL) {
         static const uint16_t* pTextures[] = {Doom000_SwappedBytes, Doom001_SwappedBytes, Doom002_SwappedBytes, Doom003_SwappedBytes, Doom004_SwappedBytes, Doom005_SwappedBytes, Doom006_SwappedBytes, Doom007_SwappedBytes, Doom008_SwappedBytes, Doom009_SwappedBytes,
                                               Doom010_SwappedBytes, Doom011_SwappedBytes, Doom012_SwappedBytes, Doom013_SwappedBytes, Doom014_SwappedBytes, Doom015_SwappedBytes, Doom016_SwappedBytes, Doom017_SwappedBytes, Doom018_SwappedBytes, Doom019_SwappedBytes,

@@ -72,3 +72,4 @@
 #include "Texture_Doom069_SwappedBytes.h"
 #include "Texture_Sprite_PottedTree_SwappedBytes.h"
 #include "Texture_Sprite_Barrel_SwappedBytes.h"
+#include "Texture_Sprite_Lamp_SwappedBytes.h"

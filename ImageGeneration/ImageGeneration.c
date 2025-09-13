@@ -81,6 +81,7 @@ extern const unsigned short Doom069[];
 
 extern const unsigned short Sprite_PottedTree[];
 extern const unsigned short Sprite_Barrel[];
+extern const unsigned short Sprite_Lamp[];
 
 typedef struct
 {
@@ -169,6 +170,7 @@ Texture textures[] = {
     {Doom069, "Doom069"},
     {Sprite_PottedTree, "Sprite_PottedTree"},
     {Sprite_Barrel, "Sprite_Barrel"},
+    {Sprite_Lamp, "Sprite_Lamp"},
 };
 
 const int texturesNum = sizeof(textures)/sizeof(textures[0]);
@@ -206,6 +208,7 @@ int main()
 
     char texturesFileName[100];
     sprintf(texturesFileName, "..\\include\\Textures.h");
+    printf("%s\n", texturesFileName);
     FILE* pf = fopen(texturesFileName, "w");
 
     for (int t = 0; t < texturesNum; t++)
