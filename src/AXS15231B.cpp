@@ -389,8 +389,7 @@ void lcd_PushColors(uint16_t *data, uint32_t len)
         spi_transaction_ext_t t = {0};
         memset(&t, 0, sizeof(t));
         if (first_send) {
-            t.base.flags =
-                SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
+            t.base.flags = SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
             t.base.cmd = 0x32 /* 0x12 */;
             t.base.addr = 0x002C00;
             first_send = 0;
@@ -465,8 +464,7 @@ void lcd_PushColors_rotated_90(
         memset(&t, 0, sizeof(t));
         if (first_send)
         {
-            t.base.flags =
-                SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
+            t.base.flags = SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
             t.base.cmd = 0x32 /* 0x12 */;
             t.base.addr = 0x002C00;
             first_send = 0;
@@ -540,8 +538,7 @@ void lcd_PushColors_mirrored_rotated_90(
         memset(&t, 0, sizeof(t));
         if (first_send)
         {
-            t.base.flags =
-                SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
+            t.base.flags = SPI_TRANS_MODE_QIO /* | SPI_TRANS_MODE_DIOQIO_ADDR */;
             t.base.cmd = 0x32 /* 0x12 */;
             t.base.addr = 0x002C00;
             first_send = 0;

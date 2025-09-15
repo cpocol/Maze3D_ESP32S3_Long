@@ -4,14 +4,12 @@
 
  #include "MelodyPlayer.h"
  
-void melodyPlayerTaskFunction(void* pPlayer)
-{
+void melodyPlayerTaskFunction(void* pPlayer) {
     while (true)
         ((MelodyPlayer*)pPlayer)->Play(melodyDoom, durationsDoom, lengthDoom, 80);
 }
 
-MelodyPlayer::MelodyPlayer(char buzzer_pin_)
-{
+MelodyPlayer::MelodyPlayer(char buzzer_pin_) {
     buzzer_pin = buzzer_pin_;
     pinMode(buzzer_pin, OUTPUT);
 
@@ -27,10 +25,8 @@ MelodyPlayer::MelodyPlayer(char buzzer_pin_)
     );
 }
 
-void MelodyPlayer::Play(const int melody[], const int durations[], int melodyLength, int speed_perc/* = 100*/)
-{
-    for (int note = 0; note < melodyLength; note++)
-    {
+void MelodyPlayer::Play(const int melody[], const int durations[], int melodyLength, int speed_perc/* = 100*/) {
+    for (int note = 0; note < melodyLength; note++) {
         //to calculate the note duration, take one second divided by the note type.
         //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
         int duration;
@@ -49,13 +45,11 @@ void MelodyPlayer::Play(const int melody[], const int durations[], int melodyLen
     }
 }
 
-void MelodyPlayer::Beep()
-{
+void MelodyPlayer::Beep() {
     Beep(NOTE_B6, 32);
 }
 
-void MelodyPlayer::Beep(int note, int duration)
-{
+void MelodyPlayer::Beep(int note, int duration) {
     duration = 1000 / duration;
     //tone(buzzer_pin, note, duration);
     int pauseBetweenNotes = duration * 1.30;

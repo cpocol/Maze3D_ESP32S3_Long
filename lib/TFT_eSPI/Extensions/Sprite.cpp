@@ -171,7 +171,8 @@ void* TFT_eSprite::callocSprite(int16_t w, int16_t h, uint8_t frames)
     else
 #endif
     {
-      ptr8 = ( uint8_t*) calloc(frames * w * h + frames, sizeof(uint16_t));
+      //ptr8 = ( uint8_t*) calloc(frames * w * h + frames, sizeof(uint16_t));
+      ptr8 = ( uint8_t*) heap_caps_malloc((frames * w * h + frames) * sizeof(uint16_t), MALLOC_CAP_INTERNAL);
       //Serial.println("Normal RAM");
     }
   }

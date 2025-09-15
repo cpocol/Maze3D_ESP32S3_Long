@@ -64,14 +64,14 @@ int DiffAngles(int ang1, int ang2) { //suppose FOV is less than PI
     ang1 = (ang1 + 16 * around) % around;
     ang2 = (ang2 + 16 * around) % around;
 
-    int diff = ang1 - ang2;
     // when the two vectors are placed on both sides of the Ox axis
     if ((ang2 > around3q) && (ang1 < aroundq))
-        diff = (around - ang2) + (ang1 - 0);
+        return (around - ang2) + (ang1 - 0);
+    else
     if ((ang1 > around3q) && (ang2 < aroundq))
-        diff = (around - ang1) + (ang2 - 0);
-
-    return diff;
+        return -((around - ang1) + (ang2 - 0));
+    else
+        return ang1 - ang2;
 }
 
 unsigned short swapBytes(unsigned short value) {
@@ -239,25 +239,11 @@ int CastY(int16_t angle, TCastResponse_fp responses[MAX_RESPONSES_XY]) { // hit 
     return cnt;
 }
 
-int Cast(int col, int angle, TCastResponse responses[MAX_RESPONSES]) {
+int Cast(int angle, TCastResponse responses[MAX_RESPONSES]) {
     int cnt = 0;
     TCastResponse_fp responsesX[MAX_RESPONSES_XY], responsesY[MAX_RESPONSES_XY];
     int responsesCntX = CastX(angle, responsesX);
     int responsesCntY = CastY(angle, responsesY);
-
-    // static int n = 0;
-    // //if (n < 700)
-    // {
-    //     if (col == DEBUG_COL && n == 0) {
-    //         n++;
-    //         Serial.println("CastX");
-    //         for (int i = 0; i < responsesCntX; i++)
-    //             Serial.printf("%d, %d, %d\n", (responsesX[i].xHit_fp >> fp), (responsesX[i].yHit_fp >> fp), Map[responsesX[i].yMap][responsesX[i].xMap]);
-    //         Serial.println("CastY");
-    //         for (int i = 0; i < responsesCntY; i++)
-    //             Serial.printf("%d, %d, %d\n", (responsesY[i].xHit_fp >> fp), (responsesY[i].yHit_fp >> fp), Map[responsesX[i].yMap][responsesX[i].xMap]);
-    //     }
-    // }
 
     // interleave responses
     int cntX = 0, cntY = 0;
@@ -300,8 +286,7 @@ int Cast(int col, int angle, TCastResponse responses[MAX_RESPONSES]) {
     }
 
     // static int m = 0;
-    // //if (n < 700)
-    // {
+    // //if (n < 700) {
     //     if (col == DEBUG_COL && m == 0) {
     //         m++;
     //         Serial.println("Cast");
@@ -395,7 +380,7 @@ void Render() {
     for (int16_t col = 0; col < screenW; col++) {
         int16_t ang = (angleC + screenWh - col + around) % around; //grows to the left of screen center
         TCastResponse responses[MAX_RESPONSES];
-        int responsesCnt = Cast(col, ang, responses);
+        int responsesCnt = Cast(ang, responses);
 
         int32_t h, textureColumn;
 
@@ -410,8 +395,7 @@ void Render() {
         for (int i = nearestOpaqueResponse; i >= 0; i--) {
             int8_t mapCell = Map[responses[i].yMap][responses[i].xMap];
 
-            if (mapCell >= SPRITE)
-            {
+            if (mapCell >= SPRITE) {
                 int xSpriteCenter = responses[i].xMap * sqRes + sqResh;
                 int ySpriteCenter = responses[i].yMap * sqRes + sqResh;
                 int distSpriteCenter_sq = sq(xC - xSpriteCenter) + sq(yC - ySpriteCenter) + 1; // +1 avoids division by zero
@@ -425,14 +409,12 @@ void Render() {
                 int w = h; // can be used interchangeably as the textures are square and the projective geometry is the same for both vertical and horizontal axes
 
                 int deltaColSpriteColumn = DiffAngles(angleSpriteCenter, ang);
-                deltaColSpriteColumn = abs(deltaColSpriteColumn); //quick fix, but the left half is shown mirrored
 
                 textureColumn = deltaColSpriteColumn * texRes / w + texResh;
                 if ((textureColumn < 0) || (textureColumn >= texRes))
                     continue;
             }
-            else
-            {
+            else {
                 int dist_sq = sq(xC - responses[i].xHit) + sq(yC - responses[i].yHit) + 1; // +1 avoids division by zero
                 h = int(sqRes * sqrtf((viewerToScreen_sq + sq(screenWh - col)) / (float)dist_sq));
 
@@ -449,7 +431,7 @@ void Render() {
 
     auto t_render = millis();
 
-    lcd_PushColors(screen, 2 * screenW * screenH);
+    lcd_PushColors(screen, screenW * screenH);
 
     frameCnt++;
 

@@ -13,14 +13,15 @@
 #define THIRD_BOTTOM (screenH / 3)
 
 // jump/crunch
-int maxJumpHeight = (int)(1.05 * sqResh); // jump this high
-int maxCrunchHeight = -(int)(0.7 * sqResh); // crunch this low
+int maxJumpHeight = (int)(1.0 * sqResh); // jump this high
+int maxCrunchHeight = -(int)(0.6 * sqResh); // crunch this low
 float fFPS = 15; // approximate FPS
 int acceleratedMotion[200];
 int maxJump_idx, maxCrunch_idx;
 int verticalAdvance = 0;
 int jumping = 0, crunching = 0;
 int z = 0; // same unit as sqRes
+bool showTouchAreas = false;
 
 void move(int* x, int* y, int angle) {
     float rad = angle * 6.2831f / around;
@@ -34,10 +35,9 @@ void move(int* x, int* y, int angle) {
     int adjYMap = (angle > aroundh) ? -1 : 0;
 
     TCastResponse responses[MAX_RESPONSES];
-    Cast(0, angle, responses);
+    Cast(angle, responses);
     int8_t mapCell = Map[responses[0].yMap][responses[0].xMap];
-    if ((0 < mapCell) && (mapCell < WALK_THROUGH_SPRITE))
-    {
+    if ((0 < mapCell) && (mapCell < WALK_THROUGH_SPRITE)) {
         if (sq(*x - xTest) + sq(*y - yTest) >= sq(*x - responses[0].xHit) + sq(*y - responses[0].yHit)) { // inside wall
             if (!responses[0].horizontalWall) { // vertical wall ||
                 *x = responses[0].xHit + safetyX;
@@ -89,6 +89,7 @@ void initController() {
 }
 
 void loopController(int* x, int* y, int* angle, int around) {
+    static auto time = millis();
     static int jump_idx;
     int bJump = 0, bCrunch = 0;
 
@@ -108,45 +109,45 @@ void loopController(int* x, int* y, int* angle, int around) {
     uint8_t num = AXS_GET_POINT_NUM(buff);
     uint16_t type = AXS_GET_GESTURE_TYPE(buff);
 
-    for (int i = 0; i < num; i++)
-    {
-      tx = AXS_GET_POINT_X(buff, i);
-      ty = AXS_GET_POINT_Y(buff, i);
-      if (!type && (5 < tx) && (tx < 635) && (5 < ty) && (ty < 175))
-      {
-        //   Serial.print("     x"); Serial.print(i); Serial.print(": "); Serial.print(tx);
-        //   Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(ty);
-        //   Serial.println();
+    for (int i = 0; i < num; i++) {
+        tx = AXS_GET_POINT_X(buff, i);
+        ty = AXS_GET_POINT_Y(buff, i);
+        if (!type && (5 < tx) && (tx < 635) && (5 < ty) && (ty < 175)) {
+            //   Serial.print("     x"); Serial.print(i); Serial.print(": "); Serial.print(tx);
+            //   Serial.print("     y"); Serial.print(i); Serial.print(": "); Serial.print(ty);
+            //   Serial.println();
 
-          if (tx > THIRD_LEFT) // left third of the screen
-          {
-              if (ty > THIRD_TOP) // show map
-              ;
-              else if (ty < THIRD_BOTTOM) // strafe left
-                  move(x, y, (*angle - around / 4 + around) % around);
-              else // rotate left
-                  rotate(angle, -ROTATE_SPD, around);
-          }
-          else
-          if (tx < THIRD_RIGHT) // right third of the screen
-          {
-              if (ty > THIRD_TOP) // crunch
-                  bCrunch = 1;
-              else if (ty < THIRD_BOTTOM) // strafe right
-                  move(x, y, (*angle + around / 4 + around) % around);
-              else // rotate right
-                  rotate(angle, +ROTATE_SPD, around);
-          }
-          else // center third of the screen
-          {
-              if (ty > THIRD_TOP) // jump
-                  bJump = 1;
-              else if (ty < THIRD_BOTTOM) // pedal backward
-                  move(x, y, (*angle + around / 2) % around);
-              else // pedal forward
-                  move(x, y, *angle);
-          }
-      }
+            if (tx > THIRD_LEFT) { // left third of the screen
+                if (ty > THIRD_TOP) { // show aux info
+                    if (millis() - time > 500) // avoid fast switching
+                    {
+                        showTouchAreas = !showTouchAreas;
+                        time = millis();
+                    }
+                }
+                else if (ty < THIRD_BOTTOM) // strafe left
+                    move(x, y, (*angle - around / 4 + around) % around);
+                else // rotate left
+                    rotate(angle, -ROTATE_SPD, around);
+            }
+            else
+            if (tx < THIRD_RIGHT) { // right third of the screen
+                if (ty > THIRD_TOP) // crunch
+                    bCrunch = 1;
+                else if (ty < THIRD_BOTTOM) // strafe right
+                    move(x, y, (*angle + around / 4 + around) % around);
+                else // rotate right
+                    rotate(angle, +ROTATE_SPD, around);
+            }
+            else { // center third of the screen
+                if (ty > THIRD_TOP) // jump
+                    bJump = 1;
+                else if (ty < THIRD_BOTTOM) // pedal backward
+                    move(x, y, (*angle + around / 2) % around);
+                else // pedal forward
+                    move(x, y, *angle);
+            }
+        }
     }
 
     // jump
@@ -203,8 +204,10 @@ void loopController(int* x, int* y, int* angle, int around) {
 }
 
 void renderController(TFT_eSprite& sprite) {
-    // sprite.drawLine(XY(THIRD_LEFT, 0), XY(THIRD_LEFT, 180), TFT_RED);
-    // sprite.drawLine(XY(THIRD_RIGHT, 0), XY(THIRD_RIGHT, 180), TFT_RED);
-    // sprite.drawLine(XY(0, THIRD_TOP), XY(640, THIRD_TOP), TFT_RED);
-    // sprite.drawLine(XY(0, THIRD_BOTTOM), XY(640, THIRD_BOTTOM), TFT_RED);
+    if (showTouchAreas) {
+        sprite.drawLine(XY(THIRD_LEFT, 0), XY(THIRD_LEFT, 180), TFT_RED);
+        sprite.drawLine(XY(THIRD_RIGHT, 0), XY(THIRD_RIGHT, 180), TFT_RED);
+        sprite.drawLine(XY(0, THIRD_TOP), XY(640, THIRD_TOP), TFT_RED);
+        sprite.drawLine(XY(0, THIRD_BOTTOM), XY(640, THIRD_BOTTOM), TFT_RED);
+    }
 }
