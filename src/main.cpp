@@ -25,7 +25,7 @@
 
 PowersSY6970 PMU; //this helps turning off the annoying blinking LED
 
-MelodyPlayer melodyPlayer(BUZZER_PIN);
+MelodyPlayer melodyPlayer(BUZZER_PIN); // red wire to right; on lower pin row, left justified: GND to pin 1 (or 2), + to pin 6
 
 TFT_eSPI tft = TFT_eSPI();
 TFT_eSprite sprite = TFT_eSprite(&tft);

@@ -3,12 +3,8 @@
 #define ADJ_HEIGHT(h) ((h) * 3 / 4)
 
 #define MOVE_SPD (10 * sqRes / 100)
-#define ROTATE_SPD 6
+#define ROTATE_SPD 4
 #define CRUNCH_SPD (sqRes/15)
-
-// Buttons
-#define BUTTON1 35
-#define BUTTON2 0
 
 // bits of fptype >= (number of bits for sqRes) + fp + (1 bit for sign) + X
 // where X = max((number of bits for mapSize), (number of bits for the integral part of tan/ctan))
