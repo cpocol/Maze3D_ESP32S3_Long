@@ -1,4 +1,6 @@
 /*
+  https://github.com/nikthefix/Lilygo_Support_T_Display_S3_Long_TFT_eSPI_Volos-nikthefix
+  
   For Lilygo T-Display-S3-Long 
   nikthefix - 28th Nov 2023
   Modified driver code and example sketch using TFT_eSPI in 'sprite only mode' 

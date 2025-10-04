@@ -1,10 +1,16 @@
 /*
-  Build Options:
+  Build Options for ARDUINO IDE:
   Board  ESP32-S3-Dev
   USB CDC On boot Enabled
   Flash Size 16MB
   Partition Scheme 16M Flash(3MB APP/9.9MB FATFS)
   PSRAM "OPI PSRAM"
+
+  for PLATFORMIO:
+  in platformio.ini: board = lilygo-t-display-s3, which points to C:\Users\<user>\.platformio\platforms\espressif32\boards\lilygo-t-display-s3.json
+  further on, that .json points to C:\Users\<user>\.platformio\packages\framework-arduinoespressif32\tools\partitions\default_16MB.csv
+  there, the partition scheme has 6.25MB (0x640000) for storing our ROM data
+  this allows for almost 200 textures, at resolution 128x128
 */
 
 #include <Arduino.h>
@@ -285,16 +291,6 @@ int Cast(int angle, TCastResponse responses[MAX_RESPONSES]) {
         cnt++;
     }
 
-    // static int m = 0;
-    // //if (n < 700) {
-    //     if (col == DEBUG_COL && m == 0) {
-    //         m++;
-    //         Serial.println("Cast");
-    //         for (int i = 0; i < cnt; i++)
-    //             Serial.printf("%d, %d\n", responses[i].xHit, responses[i].yHit);
-    //     }
-    // }
-
     return cnt;
 }
 
@@ -328,7 +324,8 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
         pTexture = Sprite_Lamp_SwappedBytes;
     else
     if (mapCell == DOOM_WALL) {
-        static const uint16_t* pTextures[] = {Doom000_SwappedBytes, Doom001_SwappedBytes, Doom002_SwappedBytes, Doom003_SwappedBytes, Doom004_SwappedBytes, Doom005_SwappedBytes, Doom006_SwappedBytes, Doom007_SwappedBytes, Doom008_SwappedBytes, Doom009_SwappedBytes,
+        static const uint16_t* pTextures[] = {
+			                                  Doom000_SwappedBytes, Doom001_SwappedBytes, Doom002_SwappedBytes, Doom003_SwappedBytes, Doom004_SwappedBytes, Doom005_SwappedBytes, Doom006_SwappedBytes, Doom007_SwappedBytes, Doom008_SwappedBytes, Doom009_SwappedBytes,
                                               Doom010_SwappedBytes, Doom011_SwappedBytes, Doom012_SwappedBytes, Doom013_SwappedBytes, Doom014_SwappedBytes, Doom015_SwappedBytes, Doom016_SwappedBytes, Doom017_SwappedBytes, Doom018_SwappedBytes, Doom019_SwappedBytes,
                                               Doom020_SwappedBytes, Doom021_SwappedBytes, Doom022_SwappedBytes, Doom023_SwappedBytes, Doom024_SwappedBytes, Doom025_SwappedBytes, Doom026_SwappedBytes, Doom027_SwappedBytes, Doom028_SwappedBytes, Doom029_SwappedBytes,
                                               Doom030_SwappedBytes, Doom031_SwappedBytes, Doom032_SwappedBytes, Doom033_SwappedBytes, Doom034_SwappedBytes, Doom035_SwappedBytes, Doom036_SwappedBytes, Doom037_SwappedBytes, Doom038_SwappedBytes, Doom039_SwappedBytes,

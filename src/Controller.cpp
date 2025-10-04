@@ -64,7 +64,7 @@ void rotate(int* angle, int dir, int around) {
 }
 
 void initController() {
-    float fDist = 0, fSpeed = 0, G = 10.f * sqRes; // G was empirically chosen as we don't have a proper world scale here
+    float fDist = 0, fSpeed = 0, G = 5.f * sqRes; // G was empirically chosen as we don't have a proper world scale here
     int i;
     for (i = 0; i < 200; i++) {
         acceleratedMotion[i] = (int)fDist;

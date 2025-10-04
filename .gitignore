@@ -3,6 +3,7 @@
 ImageGeneration/Data
 ImageGeneration/bin
 ImageGeneration/obj
+ImageGeneration_Party
 .theia
 *.o
 *.exe

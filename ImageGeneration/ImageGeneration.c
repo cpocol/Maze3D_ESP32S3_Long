@@ -188,9 +188,9 @@ int main()
         if (strcmp(textures[t].TextureName, "Wolf128x128rot") == 0)
             //gain 2 ms per frame by keeping texture(s) in RAM
             //unfortunatelly, having a second texture in RAM (as static variable) leads to crash
-            fprintf(pf, "unsigned short %s_SwappedBytes[0x4000] ={\n", textures[t].TextureName);
+            fprintf(pf, "unsigned short %s_SwappedBytes[0x4000] = {\n", textures[t].TextureName);
         else
-            fprintf(pf, "const unsigned short %s_SwappedBytes[0x4000] PROGMEM={\n", textures[t].TextureName);
+            fprintf(pf, "const unsigned short %s_SwappedBytes[0x4000] PROGMEM = {\n", textures[t].TextureName);
 
         for (int i = 0; i < 128 * 128; i++)
         {

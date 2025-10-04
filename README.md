@@ -3,4 +3,6 @@
 
 ![Snapshot](Snapshot.png)
 
-Video demo available at: https://youtube.com/shorts/84V7NFC1Kug
+Video demos available at:
+https://youtube.com/shorts/84V7NFC1Kug
+https://youtube.com/shorts/jfEZghWtNTY
