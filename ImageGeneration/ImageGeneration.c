@@ -1,7 +1,23 @@
 #include <stdio.h>
+#include <string.h>
+
+#define PC
+#define DOOM
+
+#ifdef PC
+    #define PROGMEM ""
+    #define OUTPUT_FOLDER "..\\..\\Wolfenstein3D_PC_CPP\\Textures\\"
+    #define PIXEL_DATA_TYPE "int"
+#else //ESP32
+    #define SWAP_BYTES
+    #define PROGMEM " PROGMEM"
+    #define OUTPUT_FOLDER "..\\include\\"
+    #define PIXEL_DATA_TYPE "short"
+#endif
 
 extern const unsigned short Wolf128x128rot[];
 extern const unsigned short WolfGRAY128x128rot[];
+#ifdef DOOM
 extern const unsigned short Doom000[];
 extern const unsigned short Doom001[];
 extern const unsigned short Doom002[];
@@ -78,6 +94,7 @@ extern const unsigned short Doom066[];
 extern const unsigned short Doom067[];
 extern const unsigned short Doom068[];
 extern const unsigned short Doom069[];
+#endif
 
 extern const unsigned short Sprite_PottedTree[];
 extern const unsigned short Sprite_Barrel[];
@@ -92,6 +109,7 @@ typedef struct
 Texture textures[] = {
     {Wolf128x128rot,     "Wolf128x128rot"},
     {WolfGRAY128x128rot, "WolfGRAY128x128rot"},
+#ifdef DOOM
     {Doom001, "Doom000"},
     {Doom001, "Doom001"},
     {Doom002, "Doom002"},
@@ -168,6 +186,7 @@ Texture textures[] = {
     {Doom066, "Doom067"},
     {Doom068, "Doom068"},
     {Doom069, "Doom069"},
+#endif
     {Sprite_PottedTree, "Sprite_PottedTree"},
     {Sprite_Barrel, "Sprite_Barrel"},
     {Sprite_Lamp, "Sprite_Lamp"},
@@ -175,28 +194,51 @@ Texture textures[] = {
 
 const int texturesNum = sizeof(textures)/sizeof(textures[0]);
 
+#define RGB(r, g, b)      ((unsigned int)(((unsigned char)(r) | ((unsigned short)((unsigned char)(g))<<8)) | (((unsigned int)(unsigned char)(b))<<16)))
+#define GetRValue(rgb565) ((rgb565 >> 11) & 0x1F)
+#define GetGValue(rgb565) ((rgb565 >> 5) & 0x3F)
+#define GetBValue(rgb565)  (rgb565 & 0x1F)
+
 int main()
 {
+#ifdef SWAP_BYTES
+    char suffix[] = "_SwappedBytes";
+#else
+    char suffix[] = "";
+#endif
     for (int t = 0; t < texturesNum; t++)
     {
         char dstFileName[100];
-        sprintf(dstFileName, "..\\include\\Texture_%s_SwappedBytes.h", textures[t].TextureName);
+        sprintf(dstFileName, "%sTexture_%s%s.h", OUTPUT_FOLDER, textures[t].TextureName, suffix);
         printf("%s\n", dstFileName);
         FILE* pf = fopen(dstFileName, "w");
 
+#ifndef PC
         fprintf(pf, "#include <pgmspace.h>\n\n");
+#endif
         if (strcmp(textures[t].TextureName, "Wolf128x128rot") == 0)
             //gain 2 ms per frame by keeping texture(s) in RAM
             //unfortunatelly, having a second texture in RAM (as static variable) leads to crash
-            fprintf(pf, "unsigned short %s_SwappedBytes[0x4000] = {\n", textures[t].TextureName);
+            //fprintf(pf, "unsigned short %s%s[0x4000] = {\n", textures[t].TextureName, suffix);
+            fprintf(pf, "const unsigned %s %s%s[0x4000] = {\n",
+                    PIXEL_DATA_TYPE, textures[t].TextureName, suffix);
         else
-            fprintf(pf, "const unsigned short %s_SwappedBytes[0x4000] PROGMEM = {\n", textures[t].TextureName);
+            fprintf(pf, "const unsigned %s %s%s[0x4000]%s = {\n",
+                    PIXEL_DATA_TYPE, textures[t].TextureName, suffix, PROGMEM);
 
         for (int i = 0; i < 128 * 128; i++)
         {
+#ifdef PC
+            unsigned int color = textures[t].TextureData[i];
+            color = RGB(GetBValue(color) * 8, GetGValue(color) * 4, GetRValue(color) * 8);
+            fprintf(pf, "0x%06X, ", color);
+#else
             unsigned short color = textures[t].TextureData[i];
+#ifdef SWAP_BYTES
             color = (color % 256) * 256 + (color / 256);
+#endif
             fprintf(pf, "0x%04X, ", color);
+#endif
             if (i % 16 == 15)
                 fprintf(pf, "\n");
         }
@@ -207,12 +249,12 @@ int main()
     }
 
     char texturesFileName[100];
-    sprintf(texturesFileName, "..\\include\\Textures.h");
+    sprintf(texturesFileName, "%sTextures.h", OUTPUT_FOLDER);
     printf("%s\n", texturesFileName);
     FILE* pf = fopen(texturesFileName, "w");
 
     for (int t = 0; t < texturesNum; t++)
-        fprintf(pf, "#include \"Texture_%s_SwappedBytes.h\"\n", textures[t].TextureName);
+        fprintf(pf, "#include \"Texture_%s%s.h\"\n", textures[t].TextureName, suffix);
 
     fclose(pf);
 

@@ -89,7 +89,7 @@ void setup()
 {
     Serial.begin(115200); /* prepare for possible serial debug */
     delay(200); // just give Serial some time to start
-    Serial.println("setup start");
+    Serial.println("ESP32S3_Long Maze3D");
 
     initController();
 
@@ -311,7 +311,7 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
 
     int8_t mapCell = Map[response.yMap][response.xMap];
 
-    const uint16_t* pTexture;
+    const uint16_t* pTexture = NULL;
 
     //special walls/sprites
     if (mapCell == SPRITE_TREE)
@@ -332,13 +332,31 @@ void RenderColumn(int col, int h, int textureColumn, TCastResponse response) {
                                               Doom040_SwappedBytes, Doom041_SwappedBytes, Doom042_SwappedBytes, Doom043_SwappedBytes, Doom044_SwappedBytes, Doom045_SwappedBytes, Doom046_SwappedBytes, Doom047_SwappedBytes, Doom048_SwappedBytes, Doom049_SwappedBytes,
                                               Doom050_SwappedBytes, Doom051_SwappedBytes, Doom052_SwappedBytes, Doom053_SwappedBytes, Doom054_SwappedBytes, Doom055_SwappedBytes, Doom056_SwappedBytes, Doom057_SwappedBytes, Doom058_SwappedBytes, Doom059_SwappedBytes,
                                               Doom060_SwappedBytes, Doom061_SwappedBytes, Doom062_SwappedBytes, Doom063_SwappedBytes, Doom064_SwappedBytes, Doom065_SwappedBytes, Doom066_SwappedBytes, Doom067_SwappedBytes, Doom068_SwappedBytes, Doom069_SwappedBytes,
+                                            //   Doom070_SwappedBytes, Doom071_SwappedBytes, Doom072_SwappedBytes, Doom073_SwappedBytes, Doom074_SwappedBytes, Doom075_SwappedBytes, Doom076_SwappedBytes, Doom077_SwappedBytes, Doom078_SwappedBytes, Doom079_SwappedBytes,
+                                            //   Doom080_SwappedBytes, Doom081_SwappedBytes, Doom082_SwappedBytes, Doom083_SwappedBytes, Doom084_SwappedBytes, Doom085_SwappedBytes, Doom086_SwappedBytes, Doom087_SwappedBytes, Doom088_SwappedBytes, Doom089_SwappedBytes,
+                                            //   Doom090_SwappedBytes, Doom091_SwappedBytes, Doom092_SwappedBytes, Doom093_SwappedBytes, Doom094_SwappedBytes, Doom095_SwappedBytes, Doom096_SwappedBytes, Doom097_SwappedBytes, Doom098_SwappedBytes, Doom099_SwappedBytes,
+											//   Doom100_SwappedBytes, Doom101_SwappedBytes, Doom102_SwappedBytes, Doom103_SwappedBytes, Doom104_SwappedBytes, Doom105_SwappedBytes, Doom106_SwappedBytes, Doom107_SwappedBytes, Doom108_SwappedBytes, Doom109_SwappedBytes,
+                                            //   Doom110_SwappedBytes, Doom111_SwappedBytes, Doom112_SwappedBytes, Doom113_SwappedBytes, Doom114_SwappedBytes, Doom115_SwappedBytes, Doom116_SwappedBytes, Doom117_SwappedBytes, Doom118_SwappedBytes, Doom119_SwappedBytes,
+                                            //   Doom120_SwappedBytes, Doom121_SwappedBytes, Doom122_SwappedBytes, Doom123_SwappedBytes, Doom124_SwappedBytes, Doom125_SwappedBytes, Doom126_SwappedBytes, Doom127_SwappedBytes, Doom128_SwappedBytes, Doom129_SwappedBytes,
+                                            //   Doom130_SwappedBytes, Doom131_SwappedBytes, Doom132_SwappedBytes, Doom133_SwappedBytes, Doom134_SwappedBytes, Doom135_SwappedBytes, Doom136_SwappedBytes, Doom137_SwappedBytes, Doom138_SwappedBytes, Doom139_SwappedBytes,
+                                            //   Doom140_SwappedBytes, Doom141_SwappedBytes, Doom142_SwappedBytes, Doom143_SwappedBytes, Doom144_SwappedBytes, Doom145_SwappedBytes, Doom146_SwappedBytes, Doom147_SwappedBytes,
+                                              // backward
+                                            //                                               Doom147_SwappedBytes, Doom146_SwappedBytes, Doom145_SwappedBytes, Doom144_SwappedBytes, Doom143_SwappedBytes, Doom142_SwappedBytes, Doom141_SwappedBytes, Doom140_SwappedBytes,
+                                            //   Doom139_SwappedBytes, Doom138_SwappedBytes, Doom137_SwappedBytes, Doom136_SwappedBytes, Doom135_SwappedBytes, Doom134_SwappedBytes, Doom133_SwappedBytes, Doom132_SwappedBytes, Doom131_SwappedBytes, Doom130_SwappedBytes,
+                                            //   Doom129_SwappedBytes, Doom128_SwappedBytes, Doom127_SwappedBytes, Doom126_SwappedBytes, Doom125_SwappedBytes, Doom124_SwappedBytes, Doom123_SwappedBytes, Doom122_SwappedBytes, Doom121_SwappedBytes, Doom120_SwappedBytes,
+                                            //   Doom119_SwappedBytes, Doom118_SwappedBytes, Doom117_SwappedBytes, Doom116_SwappedBytes, Doom115_SwappedBytes, Doom114_SwappedBytes, Doom113_SwappedBytes, Doom112_SwappedBytes, Doom111_SwappedBytes, Doom110_SwappedBytes,
+                                            //   Doom109_SwappedBytes, Doom108_SwappedBytes, Doom107_SwappedBytes, Doom106_SwappedBytes, Doom105_SwappedBytes, Doom104_SwappedBytes, Doom103_SwappedBytes, Doom102_SwappedBytes, Doom101_SwappedBytes, Doom100_SwappedBytes,
+                                            //   Doom099_SwappedBytes, Doom098_SwappedBytes, Doom097_SwappedBytes, Doom096_SwappedBytes, Doom095_SwappedBytes, Doom094_SwappedBytes, Doom093_SwappedBytes, Doom092_SwappedBytes, Doom091_SwappedBytes, Doom090_SwappedBytes,
+                                            //   Doom089_SwappedBytes, Doom088_SwappedBytes, Doom087_SwappedBytes, Doom086_SwappedBytes, Doom085_SwappedBytes, Doom084_SwappedBytes, Doom083_SwappedBytes, Doom082_SwappedBytes, Doom081_SwappedBytes, Doom080_SwappedBytes,
+                                            //   Doom079_SwappedBytes, Doom078_SwappedBytes, Doom077_SwappedBytes, Doom076_SwappedBytes, Doom075_SwappedBytes, Doom074_SwappedBytes, Doom073_SwappedBytes, Doom072_SwappedBytes, Doom071_SwappedBytes, Doom070_SwappedBytes,
                                               Doom069_SwappedBytes, Doom068_SwappedBytes, Doom067_SwappedBytes, Doom066_SwappedBytes, Doom065_SwappedBytes, Doom064_SwappedBytes, Doom063_SwappedBytes, Doom062_SwappedBytes, Doom061_SwappedBytes, Doom060_SwappedBytes,
                                               Doom059_SwappedBytes, Doom058_SwappedBytes, Doom057_SwappedBytes, Doom056_SwappedBytes, Doom055_SwappedBytes, Doom054_SwappedBytes, Doom053_SwappedBytes, Doom052_SwappedBytes, Doom051_SwappedBytes, Doom050_SwappedBytes,
                                               Doom049_SwappedBytes, Doom048_SwappedBytes, Doom047_SwappedBytes, Doom046_SwappedBytes, Doom045_SwappedBytes, Doom044_SwappedBytes, Doom043_SwappedBytes, Doom042_SwappedBytes, Doom041_SwappedBytes, Doom040_SwappedBytes,
                                               Doom039_SwappedBytes, Doom038_SwappedBytes, Doom037_SwappedBytes, Doom036_SwappedBytes, Doom035_SwappedBytes, Doom034_SwappedBytes, Doom033_SwappedBytes, Doom032_SwappedBytes, Doom031_SwappedBytes, Doom030_SwappedBytes,
                                               Doom029_SwappedBytes, Doom028_SwappedBytes, Doom027_SwappedBytes, Doom026_SwappedBytes, Doom025_SwappedBytes, Doom024_SwappedBytes, Doom023_SwappedBytes, Doom022_SwappedBytes, Doom021_SwappedBytes, Doom020_SwappedBytes,
                                               Doom019_SwappedBytes, Doom018_SwappedBytes, Doom017_SwappedBytes, Doom016_SwappedBytes, Doom015_SwappedBytes, Doom014_SwappedBytes, Doom013_SwappedBytes, Doom012_SwappedBytes, Doom011_SwappedBytes, Doom010_SwappedBytes,
-                                              Doom009_SwappedBytes, Doom008_SwappedBytes, Doom007_SwappedBytes, Doom006_SwappedBytes, Doom005_SwappedBytes, Doom004_SwappedBytes, Doom003_SwappedBytes, Doom002_SwappedBytes, Doom001_SwappedBytes, Doom000_SwappedBytes};
+                                              Doom009_SwappedBytes, Doom008_SwappedBytes, Doom007_SwappedBytes, Doom006_SwappedBytes, Doom005_SwappedBytes, Doom004_SwappedBytes, Doom003_SwappedBytes, Doom002_SwappedBytes, Doom001_SwappedBytes, Doom000_SwappedBytes
+											  };
         static const int texturesNum = sizeof(pTextures) / sizeof(pTextures[0]);
         pTexture = pTextures[frameCnt % texturesNum];
     }
