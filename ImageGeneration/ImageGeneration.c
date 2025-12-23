@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <string.h>
 
-#define PC
+//#define PC
 #define DOOM
 
 #ifdef PC
     #define PROGMEM ""
     #define OUTPUT_FOLDER "..\\..\\Wolfenstein3D_PC_CPP\\Textures\\"
+    #define OUTPUT_FOLDER_CPP OUTPUT_FOLDER
     #define PIXEL_DATA_TYPE "int"
 #else //ESP32
-    #define SWAP_BYTES
+    #define SWAP_BYTES // For ESP32 Long, but not for Waveshare SmartWatch
     #define PROGMEM " PROGMEM"
     #define OUTPUT_FOLDER "..\\include\\"
+    #define OUTPUT_FOLDER_CPP "..\\src\\"
     #define PIXEL_DATA_TYPE "short"
 #endif
 
@@ -206,6 +208,11 @@ int main()
 #else
     char suffix[] = "";
 #endif
+    char texturesFileName[100];
+    sprintf(texturesFileName, "%sTextures.h", OUTPUT_FOLDER);
+    printf("%s\n", texturesFileName);
+    FILE* pfDeclarations = fopen(texturesFileName, "w");
+
     for (int t = 0; t < texturesNum; t++)
     {
         char dstFileName[100];
@@ -216,15 +223,17 @@ int main()
 #ifndef PC
         fprintf(pf, "#include <pgmspace.h>\n\n");
 #endif
+        char str[1000];
         if (strcmp(textures[t].TextureName, "Wolf128x128rot") == 0)
             //gain 2 ms per frame by keeping texture(s) in RAM
             //unfortunatelly, having a second texture in RAM (as static variable) leads to crash
             //fprintf(pf, "unsigned short %s%s[0x4000] = {\n", textures[t].TextureName, suffix);
-            fprintf(pf, "const unsigned %s %s%s[0x4000] = {\n",
+            sprintf(str, "const unsigned %s %s%s[0x4000]",
                     PIXEL_DATA_TYPE, textures[t].TextureName, suffix);
         else
-            fprintf(pf, "const unsigned %s %s%s[0x4000]%s = {\n",
+            sprintf(str, "const unsigned %s %s%s[0x4000]%s",
                     PIXEL_DATA_TYPE, textures[t].TextureName, suffix, PROGMEM);
+        fprintf(pf, "%s = {\n", str);
 
         for (int i = 0; i < 128 * 128; i++)
         {
@@ -246,13 +255,18 @@ int main()
         fprintf(pf, "};\n");
 
         fclose(pf);
-    }
 
-    char texturesFileName[100];
-    sprintf(texturesFileName, "%sTextures.h", OUTPUT_FOLDER);
+        fprintf(pfDeclarations, "extern %s;\n", str);
+    }
+    fclose(pfDeclarations);
+
+    sprintf(texturesFileName, "%sTextures.cpp", OUTPUT_FOLDER_CPP);
     printf("%s\n", texturesFileName);
     FILE* pf = fopen(texturesFileName, "w");
-
+#ifdef PC
+    fprintf(pf, "#include \"pch.h\"\n");
+    fprintf(pf, "#include \"Textures.h\"\n\n");
+#endif
     for (int t = 0; t < texturesNum; t++)
         fprintf(pf, "#include \"Texture_%s%s.h\"\n", textures[t].TextureName, suffix);
 

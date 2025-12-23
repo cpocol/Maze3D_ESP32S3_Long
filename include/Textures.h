@@ -1,75 +1,75 @@
-#include "Texture_Wolf128x128rot_SwappedBytes.h"
-#include "Texture_WolfGRAY128x128rot_SwappedBytes.h"
-#include "Texture_Doom000_SwappedBytes.h"
-#include "Texture_Doom001_SwappedBytes.h"
-#include "Texture_Doom002_SwappedBytes.h"
-#include "Texture_Doom003_SwappedBytes.h"
-#include "Texture_Doom004_SwappedBytes.h"
-#include "Texture_Doom005_SwappedBytes.h"
-#include "Texture_Doom006_SwappedBytes.h"
-#include "Texture_Doom007_SwappedBytes.h"
-#include "Texture_Doom008_SwappedBytes.h"
-#include "Texture_Doom009_SwappedBytes.h"
-#include "Texture_Doom010_SwappedBytes.h"
-#include "Texture_Doom011_SwappedBytes.h"
-#include "Texture_Doom012_SwappedBytes.h"
-#include "Texture_Doom013_SwappedBytes.h"
-#include "Texture_Doom014_SwappedBytes.h"
-#include "Texture_Doom015_SwappedBytes.h"
-#include "Texture_Doom016_SwappedBytes.h"
-#include "Texture_Doom017_SwappedBytes.h"
-#include "Texture_Doom018_SwappedBytes.h"
-#include "Texture_Doom019_SwappedBytes.h"
-#include "Texture_Doom020_SwappedBytes.h"
-#include "Texture_Doom021_SwappedBytes.h"
-#include "Texture_Doom022_SwappedBytes.h"
-#include "Texture_Doom023_SwappedBytes.h"
-#include "Texture_Doom024_SwappedBytes.h"
-#include "Texture_Doom025_SwappedBytes.h"
-#include "Texture_Doom026_SwappedBytes.h"
-#include "Texture_Doom027_SwappedBytes.h"
-#include "Texture_Doom028_SwappedBytes.h"
-#include "Texture_Doom029_SwappedBytes.h"
-#include "Texture_Doom030_SwappedBytes.h"
-#include "Texture_Doom031_SwappedBytes.h"
-#include "Texture_Doom032_SwappedBytes.h"
-#include "Texture_Doom033_SwappedBytes.h"
-#include "Texture_Doom034_SwappedBytes.h"
-#include "Texture_Doom035_SwappedBytes.h"
-#include "Texture_Doom036_SwappedBytes.h"
-#include "Texture_Doom037_SwappedBytes.h"
-#include "Texture_Doom038_SwappedBytes.h"
-#include "Texture_Doom039_SwappedBytes.h"
-#include "Texture_Doom040_SwappedBytes.h"
-#include "Texture_Doom041_SwappedBytes.h"
-#include "Texture_Doom042_SwappedBytes.h"
-#include "Texture_Doom043_SwappedBytes.h"
-#include "Texture_Doom044_SwappedBytes.h"
-#include "Texture_Doom045_SwappedBytes.h"
-#include "Texture_Doom046_SwappedBytes.h"
-#include "Texture_Doom047_SwappedBytes.h"
-#include "Texture_Doom048_SwappedBytes.h"
-#include "Texture_Doom049_SwappedBytes.h"
-#include "Texture_Doom050_SwappedBytes.h"
-#include "Texture_Doom051_SwappedBytes.h"
-#include "Texture_Doom052_SwappedBytes.h"
-#include "Texture_Doom053_SwappedBytes.h"
-#include "Texture_Doom054_SwappedBytes.h"
-#include "Texture_Doom055_SwappedBytes.h"
-#include "Texture_Doom056_SwappedBytes.h"
-#include "Texture_Doom057_SwappedBytes.h"
-#include "Texture_Doom058_SwappedBytes.h"
-#include "Texture_Doom059_SwappedBytes.h"
-#include "Texture_Doom060_SwappedBytes.h"
-#include "Texture_Doom061_SwappedBytes.h"
-#include "Texture_Doom062_SwappedBytes.h"
-#include "Texture_Doom063_SwappedBytes.h"
-#include "Texture_Doom064_SwappedBytes.h"
-#include "Texture_Doom065_SwappedBytes.h"
-#include "Texture_Doom066_SwappedBytes.h"
-#include "Texture_Doom067_SwappedBytes.h"
-#include "Texture_Doom068_SwappedBytes.h"
-#include "Texture_Doom069_SwappedBytes.h"
-#include "Texture_Sprite_PottedTree_SwappedBytes.h"
-#include "Texture_Sprite_Barrel_SwappedBytes.h"
-#include "Texture_Sprite_Lamp_SwappedBytes.h"
+extern const unsigned short Wolf128x128rot_SwappedBytes[0x4000];
+extern const unsigned short WolfGRAY128x128rot_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom000_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom001_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom002_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom003_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom004_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom005_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom006_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom007_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom008_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom009_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom010_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom011_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom012_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom013_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom014_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom015_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom016_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom017_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom018_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom019_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom020_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom021_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom022_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom023_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom024_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom025_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom026_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom027_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom028_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom029_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom030_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom031_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom032_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom033_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom034_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom035_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom036_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom037_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom038_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom039_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom040_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom041_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom042_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom043_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom044_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom045_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom046_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom047_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom048_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom049_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom050_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom051_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom052_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom053_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom054_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom055_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom056_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom057_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom058_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom059_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom060_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom061_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom062_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom063_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom064_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom065_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom066_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom067_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom068_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Doom069_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Sprite_PottedTree_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Sprite_Barrel_SwappedBytes[0x4000] PROGMEM;
+extern const unsigned short Sprite_Lamp_SwappedBytes[0x4000] PROGMEM;

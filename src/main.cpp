@@ -21,7 +21,7 @@
 #include "Config.h"
 #include "Globals.h"
 #include "Map.h"
-#include "Textures.h"
+#include "Textures.cpp"
 #include "Controller.h"
 #include "time.h"
 #include "AXS15231B.h"
