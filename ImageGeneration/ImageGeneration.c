@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
-//#define PC
-#define DOOM
+#define PC
+//#define DOOM
+#define SOLDIER
 
 #ifdef PC
     #define PROGMEM ""
@@ -19,6 +20,8 @@
 
 extern const unsigned short Wolf128x128rot[];
 extern const unsigned short WolfGRAY128x128rot[];
+extern const unsigned short PrinceWall1rot[];
+extern const unsigned short PrinceWall2rot[];
 #ifdef DOOM
 extern const unsigned short Doom000[];
 extern const unsigned short Doom001[];
@@ -97,10 +100,60 @@ extern const unsigned short Doom067[];
 extern const unsigned short Doom068[];
 extern const unsigned short Doom069[];
 #endif
+#ifdef SOLDIER
+extern const unsigned short Sprite_Soldier_000_0[];
+extern const unsigned short Sprite_Soldier_000_1[];
+extern const unsigned short Sprite_Soldier_000_2[];
+extern const unsigned short Sprite_Soldier_000_3[];
+extern const unsigned short Sprite_Soldier_000_4[];
+
+extern const unsigned short Sprite_Soldier_045_0[];
+extern const unsigned short Sprite_Soldier_045_1[];
+extern const unsigned short Sprite_Soldier_045_2[];
+extern const unsigned short Sprite_Soldier_045_3[];
+extern const unsigned short Sprite_Soldier_045_4[];
+
+extern const unsigned short Sprite_Soldier_090_0[];
+extern const unsigned short Sprite_Soldier_090_1[];
+extern const unsigned short Sprite_Soldier_090_2[];
+extern const unsigned short Sprite_Soldier_090_3[];
+extern const unsigned short Sprite_Soldier_090_4[];
+
+extern const unsigned short Sprite_Soldier_135_0[];
+extern const unsigned short Sprite_Soldier_135_1[];
+extern const unsigned short Sprite_Soldier_135_2[];
+extern const unsigned short Sprite_Soldier_135_3[];
+extern const unsigned short Sprite_Soldier_135_4[];
+
+extern const unsigned short Sprite_Soldier_180_0[];
+extern const unsigned short Sprite_Soldier_180_1[];
+extern const unsigned short Sprite_Soldier_180_2[];
+extern const unsigned short Sprite_Soldier_180_3[];
+extern const unsigned short Sprite_Soldier_180_4[];
+
+extern const unsigned short Sprite_Soldier_225_0[];
+extern const unsigned short Sprite_Soldier_225_1[];
+extern const unsigned short Sprite_Soldier_225_2[];
+extern const unsigned short Sprite_Soldier_225_3[];
+extern const unsigned short Sprite_Soldier_225_4[];
+
+extern const unsigned short Sprite_Soldier_270_0[];
+extern const unsigned short Sprite_Soldier_270_1[];
+extern const unsigned short Sprite_Soldier_270_2[];
+extern const unsigned short Sprite_Soldier_270_3[];
+extern const unsigned short Sprite_Soldier_270_4[];
+
+extern const unsigned short Sprite_Soldier_315_0[];
+extern const unsigned short Sprite_Soldier_315_1[];
+extern const unsigned short Sprite_Soldier_315_2[];
+extern const unsigned short Sprite_Soldier_315_3[];
+extern const unsigned short Sprite_Soldier_315_4[];
+#endif
 
 extern const unsigned short Sprite_PottedTree[];
 extern const unsigned short Sprite_Barrel[];
 extern const unsigned short Sprite_Lamp[];
+extern const unsigned short Sprite_Lamp_Winter[];
 
 typedef struct
 {
@@ -111,6 +164,8 @@ typedef struct
 Texture textures[] = {
     {Wolf128x128rot,     "Wolf128x128rot"},
     {WolfGRAY128x128rot, "WolfGRAY128x128rot"},
+    {PrinceWall1rot,     "PrinceWall1rot"},
+    {PrinceWall2rot,     "PrinceWall2rot"},
 #ifdef DOOM
     {Doom001, "Doom000"},
     {Doom001, "Doom001"},
@@ -189,9 +244,60 @@ Texture textures[] = {
     {Doom068, "Doom068"},
     {Doom069, "Doom069"},
 #endif
+#ifdef SOLDIER
+    {Sprite_Soldier_000_0, "Sprite_Soldier_000_0"},
+    {Sprite_Soldier_000_1, "Sprite_Soldier_000_1"},
+    {Sprite_Soldier_000_2, "Sprite_Soldier_000_2"},
+    {Sprite_Soldier_000_3, "Sprite_Soldier_000_3"},
+    {Sprite_Soldier_000_4, "Sprite_Soldier_000_4"},
+
+    {Sprite_Soldier_045_0, "Sprite_Soldier_045_0"},
+    {Sprite_Soldier_045_1, "Sprite_Soldier_045_1"},
+    {Sprite_Soldier_045_2, "Sprite_Soldier_045_2"},
+    {Sprite_Soldier_045_3, "Sprite_Soldier_045_3"},
+    {Sprite_Soldier_045_4, "Sprite_Soldier_045_4"},
+
+    {Sprite_Soldier_090_0, "Sprite_Soldier_090_0"},
+    {Sprite_Soldier_090_1, "Sprite_Soldier_090_1"},
+    {Sprite_Soldier_090_2, "Sprite_Soldier_090_2"},
+    {Sprite_Soldier_090_3, "Sprite_Soldier_090_3"},
+    {Sprite_Soldier_090_4, "Sprite_Soldier_090_4"},
+
+    {Sprite_Soldier_135_0, "Sprite_Soldier_135_0"},
+    {Sprite_Soldier_135_1, "Sprite_Soldier_135_1"},
+    {Sprite_Soldier_135_2, "Sprite_Soldier_135_2"},
+    {Sprite_Soldier_135_3, "Sprite_Soldier_135_3"},
+    {Sprite_Soldier_135_4, "Sprite_Soldier_135_4"},
+
+    {Sprite_Soldier_180_0, "Sprite_Soldier_180_0"},
+    {Sprite_Soldier_180_1, "Sprite_Soldier_180_1"},
+    {Sprite_Soldier_180_2, "Sprite_Soldier_180_2"},
+    {Sprite_Soldier_180_3, "Sprite_Soldier_180_3"},
+    {Sprite_Soldier_180_4, "Sprite_Soldier_180_4"},
+
+    {Sprite_Soldier_225_0, "Sprite_Soldier_225_0"},
+    {Sprite_Soldier_225_1, "Sprite_Soldier_225_1"},
+    {Sprite_Soldier_225_2, "Sprite_Soldier_225_2"},
+    {Sprite_Soldier_225_3, "Sprite_Soldier_225_3"},
+    {Sprite_Soldier_225_4, "Sprite_Soldier_225_4"},
+
+    {Sprite_Soldier_270_0, "Sprite_Soldier_270_0"},
+    {Sprite_Soldier_270_1, "Sprite_Soldier_270_1"},
+    {Sprite_Soldier_270_2, "Sprite_Soldier_270_2"},
+    {Sprite_Soldier_270_3, "Sprite_Soldier_270_3"},
+    {Sprite_Soldier_270_4, "Sprite_Soldier_270_4"},
+
+    {Sprite_Soldier_315_0, "Sprite_Soldier_315_0"},
+    {Sprite_Soldier_315_1, "Sprite_Soldier_315_1"},
+    {Sprite_Soldier_315_2, "Sprite_Soldier_315_2"},
+    {Sprite_Soldier_315_3, "Sprite_Soldier_315_3"},
+    {Sprite_Soldier_315_4, "Sprite_Soldier_315_4"},
+
+#endif
     {Sprite_PottedTree, "Sprite_PottedTree"},
     {Sprite_Barrel, "Sprite_Barrel"},
     {Sprite_Lamp, "Sprite_Lamp"},
+    {Sprite_Lamp_Winter, "Sprite_Lamp_Winter"},
 };
 
 const int texturesNum = sizeof(textures)/sizeof(textures[0]);
@@ -212,6 +318,8 @@ int main()
     sprintf(texturesFileName, "%sTextures.h", OUTPUT_FOLDER);
     printf("%s\n", texturesFileName);
     FILE* pfDeclarations = fopen(texturesFileName, "w");
+    fprintf(pfDeclarations, "#pragma once\n");
+    fprintf(pfDeclarations, "#include <stdint.h>\n\n");
 
     for (int t = 0; t < texturesNum; t++)
     {
@@ -220,7 +328,10 @@ int main()
         printf("%s\n", dstFileName);
         FILE* pf = fopen(dstFileName, "w");
 
-#ifndef PC
+#ifdef PC
+        char constStr[] = "";
+#else
+        char constStr[] = "const ";
         fprintf(pf, "#include <pgmspace.h>\n\n");
 #endif
         char str[1000];
@@ -228,10 +339,10 @@ int main()
             //gain 2 ms per frame by keeping texture(s) in RAM
             //unfortunatelly, having a second texture in RAM (as static variable) leads to crash
             //fprintf(pf, "unsigned short %s%s[0x4000] = {\n", textures[t].TextureName, suffix);
-            sprintf(str, "const unsigned %s %s%s[0x4000]",
+            sprintf(str, "%sunsigned %s %s%s[0x4000]", constStr,
                     PIXEL_DATA_TYPE, textures[t].TextureName, suffix);
         else
-            sprintf(str, "const unsigned %s %s%s[0x4000]%s",
+            sprintf(str, "%sunsigned %s %s%s[0x4000]%s", constStr,
                     PIXEL_DATA_TYPE, textures[t].TextureName, suffix, PROGMEM);
         fprintf(pf, "%s = {\n", str);
 
@@ -240,6 +351,9 @@ int main()
 #ifdef PC
             unsigned int color = textures[t].TextureData[i];
             color = RGB(GetBValue(color) * 8, GetGValue(color) * 4, GetRValue(color) * 8);
+            // one transparency for all
+            if (color == 0x980088)
+                color = 0x607478;
             fprintf(pf, "0x%06X, ", color);
 #else
             unsigned short color = textures[t].TextureData[i];
@@ -258,19 +372,23 @@ int main()
 
         fprintf(pfDeclarations, "extern %s;\n", str);
     }
+    fprintf(pfDeclarations, "uint32_t* const pAllTextures[] = {");
+    for (int t = 0; t < texturesNum; t++)
+        fprintf(pfDeclarations, "%s, ", textures[t].TextureName);
+    fprintf(pfDeclarations, "};\n");
     fclose(pfDeclarations);
 
     sprintf(texturesFileName, "%sTextures.cpp", OUTPUT_FOLDER_CPP);
     printf("%s\n", texturesFileName);
-    FILE* pf = fopen(texturesFileName, "w");
+    FILE* pfDefinitions = fopen(texturesFileName, "w");
 #ifdef PC
-    fprintf(pf, "#include \"pch.h\"\n");
-    fprintf(pf, "#include \"Textures.h\"\n\n");
+    fprintf(pfDefinitions, "#include \"pch.h\"\n");
+    fprintf(pfDefinitions, "#include \"Textures.h\"\n\n");
 #endif
     for (int t = 0; t < texturesNum; t++)
-        fprintf(pf, "#include \"Texture_%s%s.h\"\n", textures[t].TextureName, suffix);
+        fprintf(pfDefinitions, "#include \"Texture_%s%s.h\"\n", textures[t].TextureName, suffix);
 
-    fclose(pf);
+    fclose(pfDefinitions);
 
     return 0;
 }

@@ -244,13 +244,142 @@
 		<Unit filename="ImageGeneration.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="PrinceWall1rot.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="PrinceWall2rot.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Sprite_Barrel.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Sprite_Lamp.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Sprite_Lamp_Winter.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Sprite_PottedTree.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_000_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_000_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_000_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_000_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_000_4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_045_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_045_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_045_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_045_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_045_4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_090_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_090_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_090_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_090_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_090_4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_135_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_135_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_135_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_135_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_135_4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_180_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_180_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_180_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_180_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_180_4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_225_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_225_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_225_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_225_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_225_4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_270_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_270_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_270_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_270_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_270_4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_315_0.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_315_1.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_315_2.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_315_3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Soldier_315_4.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="Wolf128x128rot.c">
