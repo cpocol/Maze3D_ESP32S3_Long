@@ -1601,7 +1601,7 @@ int16_t TFT_eSprite::height(void)
 // Does nothing for 4, 8 and 16 bpp sprites.
 void TFT_eSprite::setRotation(uint8_t r)
 {
-  if (_bpp != 1) return;
+  //if (_bpp != 1) return;
 
   rotation = r;
   
@@ -1635,8 +1635,34 @@ void TFT_eSprite::drawPixel(int32_t x, int32_t y, uint32_t color)
   x+= _xDatum;
   y+= _yDatum;
 
+  if (rotation == 1)
+  {
+    uint16_t tx = x;
+    x = _dwidth - y - 1;
+    y = tx;
+  }
+  else if (rotation == 2)
+  {
+    x = _dwidth - x - 1;
+    y = _dheight - y - 1;
+  }
+  else if (rotation == 3)
+  {
+    uint16_t tx = x;
+    x = y;
+    y = _dheight - tx - 1;
+  }
+
   // Range checking
-  if ((x < _vpX) || (y < _vpY) ||(x >= _vpW) || (y >= _vpH)) return;
+  auto Width = _vpW;
+  auto Height = _vpH;
+  if (rotation & 1)
+  {
+    auto aux = Width;
+    Width = Height;
+    Height = aux;
+  }
+  //if ((x < _vpX) || (y < _vpY) ||(x >= Width) || (y >= Height)) return;
 
   if (_bpp == 16)
   {
@@ -1877,14 +1903,40 @@ void TFT_eSprite::fillRect(int32_t x, int32_t y, int32_t w, int32_t h, uint32_t 
   x+= _xDatum;
   y+= _yDatum;
 
+  if (rotation == 1)
+  {
+    uint16_t tx = x;
+    x = _dwidth - y - 1;
+    y = tx;
+  }
+  else if (rotation == 2)
+  {
+    x = _dwidth - x - 1;
+    y = _dheight - y - 1;
+  }
+  else if (rotation == 3)
+  {
+    uint16_t tx = x;
+    x = y;
+    y = _dheight - tx - 1;
+  }
+
   // Clipping
-  if ((x >= _vpW) || (y >= _vpH)) return;
+  auto Width = _vpW;
+  auto Height = _vpH;
+  if (rotation & 1)
+  {
+    auto aux = Width;
+    Width = Height;
+    Height = aux;
+  }
+//  if ((x >= Width) || (y >= Height)) return;
 
-  if (x < _vpX) { w += x - _vpX; x = _vpX; }
-  if (y < _vpY) { h += y - _vpY; y = _vpY; }
+//   if (x < _vpX) { w += x - _vpX; x = _vpX; }
+//   if (y < _vpY) { h += y - _vpY; y = _vpY; }
 
-  if ((x + w) > _vpW) w = _vpW - x;
-  if ((y + h) > _vpH) h = _vpH - y;
+//   if ((x + w) > Width) w = Width - x;
+//   if ((y + h) > Height) h = Height - y;
 
   if ((w < 1) || (h < 1)) return;
 
@@ -1994,8 +2046,16 @@ void TFT_eSprite::drawChar(int32_t x, int32_t y, uint16_t c, uint32_t color, uin
 #endif
 //>>>>>>>>>>>>>>>>>>
 
-  if ((x >= _vpW - _xDatum) || // Clip right
-      (y >= _vpH - _yDatum))   // Clip bottom
+    auto Width = _vpW;
+    auto Height = _vpH;
+    if (rotation & 1)
+    {
+        auto aux = Width;
+        Width = Height;
+        Height = aux;
+    }
+  if ((x >= Width - _xDatum) || // Clip right
+      (y >= Height - _yDatum))   // Clip bottom
     return;
 
   if (((x + 6 * size - 1) < (_vpX - _xDatum)) || // Clip left
