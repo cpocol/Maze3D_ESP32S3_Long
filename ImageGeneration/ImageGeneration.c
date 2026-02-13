@@ -4,18 +4,23 @@
 #define PC
 //#define DOOM
 #define SOLDIER
+#define PACMAN
 
 #ifdef PC
     #define PROGMEM ""
     #define OUTPUT_FOLDER "..\\..\\Wolfenstein3D_PC_CPP\\Textures\\"
     #define OUTPUT_FOLDER_CPP OUTPUT_FOLDER
     #define PIXEL_DATA_TYPE "int"
+    #define ALL_TEXTURES_TYPE "uint32_t* const "
 #else //ESP32
-    #define SWAP_BYTES // For ESP32 Long, but not for Waveshare SmartWatch
+//    #define SWAP_BYTES // For ESP32 Long, but not for Waveshare SmartWatch
     #define PROGMEM " PROGMEM"
-    #define OUTPUT_FOLDER "..\\include\\"
-    #define OUTPUT_FOLDER_CPP "..\\src\\"
+//    #define OUTPUT_FOLDER "..\\include\\"
+//    #define OUTPUT_FOLDER_CPP "..\\src\\"
+    #define OUTPUT_FOLDER "..\\..\\ESP32S3_WaveshareWatch\\include\\"
+    #define OUTPUT_FOLDER_CPP "..\\..\\ESP32S3_WaveshareWatch\\src\\"
     #define PIXEL_DATA_TYPE "short"
+    #define ALL_TEXTURES_TYPE "const unsigned short* const "
 #endif
 
 extern const unsigned short Wolf128x128rot[];
@@ -148,6 +153,45 @@ extern const unsigned short Sprite_Soldier_315_1[];
 extern const unsigned short Sprite_Soldier_315_2[];
 extern const unsigned short Sprite_Soldier_315_3[];
 extern const unsigned short Sprite_Soldier_315_4[];
+#endif
+#ifdef PACMAN
+extern const unsigned short Sprite_Ghost_Blinky_000[];
+extern const unsigned short Sprite_Ghost_Blinky_045[];
+extern const unsigned short Sprite_Ghost_Blinky_090[];
+extern const unsigned short Sprite_Ghost_Blinky_135[];
+extern const unsigned short Sprite_Ghost_Blinky_180[];
+extern const unsigned short Sprite_Ghost_Blinky_225[];
+extern const unsigned short Sprite_Ghost_Blinky_270[];
+extern const unsigned short Sprite_Ghost_Blinky_315[];
+
+extern const unsigned short Sprite_Ghost_Pinky_000[];
+extern const unsigned short Sprite_Ghost_Pinky_045[];
+extern const unsigned short Sprite_Ghost_Pinky_090[];
+extern const unsigned short Sprite_Ghost_Pinky_135[];
+extern const unsigned short Sprite_Ghost_Pinky_180[];
+extern const unsigned short Sprite_Ghost_Pinky_225[];
+extern const unsigned short Sprite_Ghost_Pinky_270[];
+extern const unsigned short Sprite_Ghost_Pinky_315[];
+
+extern const unsigned short Sprite_Ghost_Inky_000[];
+extern const unsigned short Sprite_Ghost_Inky_045[];
+extern const unsigned short Sprite_Ghost_Inky_090[];
+extern const unsigned short Sprite_Ghost_Inky_135[];
+extern const unsigned short Sprite_Ghost_Inky_180[];
+extern const unsigned short Sprite_Ghost_Inky_225[];
+extern const unsigned short Sprite_Ghost_Inky_270[];
+extern const unsigned short Sprite_Ghost_Inky_315[];
+
+extern const unsigned short Sprite_Ghost_Clyde_000[];
+extern const unsigned short Sprite_Ghost_Clyde_045[];
+extern const unsigned short Sprite_Ghost_Clyde_090[];
+extern const unsigned short Sprite_Ghost_Clyde_135[];
+extern const unsigned short Sprite_Ghost_Clyde_180[];
+extern const unsigned short Sprite_Ghost_Clyde_225[];
+extern const unsigned short Sprite_Ghost_Clyde_270[];
+extern const unsigned short Sprite_Ghost_Clyde_315[];
+extern const unsigned short Sprite_Bread[];
+extern const unsigned short Sprite_BigBread[];
 #endif
 
 extern const unsigned short Sprite_PottedTree[];
@@ -292,7 +336,46 @@ Texture textures[] = {
     {Sprite_Soldier_315_2, "Sprite_Soldier_315_2"},
     {Sprite_Soldier_315_3, "Sprite_Soldier_315_3"},
     {Sprite_Soldier_315_4, "Sprite_Soldier_315_4"},
+#endif
+#ifdef PACMAN
+    {Sprite_Ghost_Blinky_000, "Sprite_Ghost_Blinky_000"},
+    {Sprite_Ghost_Blinky_045, "Sprite_Ghost_Blinky_045"},
+    {Sprite_Ghost_Blinky_090, "Sprite_Ghost_Blinky_090"},
+    {Sprite_Ghost_Blinky_135, "Sprite_Ghost_Blinky_135"},
+    {Sprite_Ghost_Blinky_180, "Sprite_Ghost_Blinky_180"},
+    {Sprite_Ghost_Blinky_225, "Sprite_Ghost_Blinky_225"},
+    {Sprite_Ghost_Blinky_270, "Sprite_Ghost_Blinky_270"},
+    {Sprite_Ghost_Blinky_315, "Sprite_Ghost_Blinky_315"},
 
+    {Sprite_Ghost_Pinky_000, "Sprite_Ghost_Pinky_000"},
+    {Sprite_Ghost_Pinky_045, "Sprite_Ghost_Pinky_045"},
+    {Sprite_Ghost_Pinky_090, "Sprite_Ghost_Pinky_090"},
+    {Sprite_Ghost_Pinky_135, "Sprite_Ghost_Pinky_135"},
+    {Sprite_Ghost_Pinky_180, "Sprite_Ghost_Pinky_180"},
+    {Sprite_Ghost_Pinky_225, "Sprite_Ghost_Pinky_225"},
+    {Sprite_Ghost_Pinky_270, "Sprite_Ghost_Pinky_270"},
+    {Sprite_Ghost_Pinky_315, "Sprite_Ghost_Pinky_315"},
+
+    {Sprite_Ghost_Inky_000, "Sprite_Ghost_Inky_000"},
+    {Sprite_Ghost_Inky_045, "Sprite_Ghost_Inky_045"},
+    {Sprite_Ghost_Inky_090, "Sprite_Ghost_Inky_090"},
+    {Sprite_Ghost_Inky_135, "Sprite_Ghost_Inky_135"},
+    {Sprite_Ghost_Inky_180, "Sprite_Ghost_Inky_180"},
+    {Sprite_Ghost_Inky_225, "Sprite_Ghost_Inky_225"},
+    {Sprite_Ghost_Inky_270, "Sprite_Ghost_Inky_270"},
+    {Sprite_Ghost_Inky_315, "Sprite_Ghost_Inky_315"},
+
+    {Sprite_Ghost_Clyde_000, "Sprite_Ghost_Clyde_000"},
+    {Sprite_Ghost_Clyde_045, "Sprite_Ghost_Clyde_045"},
+    {Sprite_Ghost_Clyde_090, "Sprite_Ghost_Clyde_090"},
+    {Sprite_Ghost_Clyde_135, "Sprite_Ghost_Clyde_135"},
+    {Sprite_Ghost_Clyde_180, "Sprite_Ghost_Clyde_180"},
+    {Sprite_Ghost_Clyde_225, "Sprite_Ghost_Clyde_225"},
+    {Sprite_Ghost_Clyde_270, "Sprite_Ghost_Clyde_270"},
+    {Sprite_Ghost_Clyde_315, "Sprite_Ghost_Clyde_315"},
+
+    {Sprite_Bread, "Sprite_Bread"},
+    {Sprite_BigBread, "Sprite_BigBread"},
 #endif
     {Sprite_PottedTree, "Sprite_PottedTree"},
     {Sprite_Barrel, "Sprite_Barrel"},
@@ -352,11 +435,13 @@ int main()
             unsigned int color = textures[t].TextureData[i];
             color = RGB(GetBValue(color) * 8, GetGValue(color) * 4, GetRValue(color) * 8);
             // one transparency for all
-            if (color == 0x980088)
+            if (color == 0x980088) //dec 152 0 136
                 color = 0x607478;
             fprintf(pf, "0x%06X, ", color);
 #else
             unsigned short color = textures[t].TextureData[i];
+            if (color == 0x9811)
+                color = 0x63AF;
 #ifdef SWAP_BYTES
             color = (color % 256) * 256 + (color / 256);
 #endif
@@ -372,7 +457,7 @@ int main()
 
         fprintf(pfDeclarations, "extern %s;\n", str);
     }
-    fprintf(pfDeclarations, "uint32_t* const pAllTextures[] = {");
+    fprintf(pfDeclarations, "%spAllTextures[] = {", ALL_TEXTURES_TYPE);
     for (int t = 0; t < texturesNum; t++)
         fprintf(pfDeclarations, "%s, ", textures[t].TextureName);
     fprintf(pfDeclarations, "};\n");

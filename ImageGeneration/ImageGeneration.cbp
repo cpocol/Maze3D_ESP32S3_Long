@@ -253,6 +253,129 @@
 		<Unit filename="Sprite_Barrel.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="Sprite_BigBread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Bread.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_000.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_045.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_090.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_135.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_225.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_270.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_315.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_000.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_045.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_090.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_135.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_180.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_225.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_270.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Blinky_315.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_000.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_045.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_090.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_135.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_180.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_225.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_270.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Clyde_315.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_000.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_045.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_090.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_135.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_180.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_225.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_270.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Inky_315.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_000.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_045.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_090.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_135.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_180.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_225.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_270.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Sprite_Ghost_Pinky_315.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Sprite_Lamp.c">
 			<Option compilerVar="CC" />
 		</Unit>
